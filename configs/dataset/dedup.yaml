@@ -1,0 +1,10 @@
+# Khử trùng mức nguồn (RQF-05): chuẩn hoá bỏ comment/whitespace rồi hash; gom near-dup cluster.
+normalize:
+  strip_comments: true
+  strip_whitespace: true
+  lowercase_tokens: false
+hash: sha1
+near_dup:
+  method: minhash          # hoặc token-shingle jaccard
+  threshold: 0.85
+out_clusters: experiments/dataset/clusters.csv

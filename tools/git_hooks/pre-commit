@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Chặn commit file >5MB và mọi thứ dưới data/ (chuẩn nhóm H-GNN).
+set -e
+MAX=$((5*1024*1024))
+fail=0
+while read -r f; do
+  [ -z "$f" ] && continue
+  case "$f" in data/*) echo "BLOCK: $f (data/ không sync git)"; fail=1;; esac
+  if [ -f "$f" ]; then
+    sz=$(wc -c < "$f")
+    if [ "$sz" -gt "$MAX" ]; then echo "BLOCK: $f ($sz bytes > 5MB)"; fail=1; fi
+  fi
+done < <(git diff --cached --name-only)
+[ "$fail" -eq 0 ] || { echo "pre-commit từ chối."; exit 1; }

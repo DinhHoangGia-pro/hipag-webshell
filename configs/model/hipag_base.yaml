@@ -1,0 +1,15 @@
+model:
+  name: hipag
+  token_transformer: {d_embed: 64, heads: 4, layers: 2}      # tier 1
+  intra_gatv2:       {hidden: 128, heads: 2, layers: 2}      # tier 2
+  inter_transformer: {hidden: 128, heads: 2, layers: 2}      # tier 3 (TransformerConv/UniMP)
+  taint_predictor:   {mlp_hidden: 128, tau: 0.5}             # learned E_sem (RQF-06)
+  global_features:   [shannon_entropy, has_eval, has_decode, has_var_func]
+  dropout: 0.1
+  pool: max            # global max-pool (giống H-GNN headline); mean-pool chỉ trong ablation
+train:
+  lr: 2.0e-4
+  weight_decay: 1.0e-4
+  epochs: 100
+  batch_size: 32
+  optimizer: adamw

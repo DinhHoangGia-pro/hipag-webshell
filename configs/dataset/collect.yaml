@@ -1,0 +1,15 @@
+# Thu thập 5 tập webshell PHP + benign. Điền đường dẫn/URL local của anh.
+webshell_sources:
+  - {name: tennc,      year: 2022, path: data/raw/tennc,      lang_filter: [php]}
+  - {name: johntroony, year: 2020, path: data/raw/johntroony, lang_filter: [php]}
+  - {name: webshark,   year: 2015, path: data/raw/webshark,   lang_filter: [php]}
+  - {name: cycle183,   year: 2020, path: data/raw/cycle183,   lang_filter: [php]}
+  - {name: mwf,        year: 2023, path: data/raw/mwf,         lang_filter: [php], role: holdout_cross_dataset}  # never trained on (RQF-05/K3)
+benign_sources:
+  # TODO(RQF-04): khai rõ thủ tục lấy mẫu + nhãn benign + tỉ lệ lớp
+  - {name: wordpress, path: data/raw/benign/wordpress}
+  - {name: laravel,   path: data/raw/benign/laravel}
+  - {name: drupal,    path: data/raw/benign/drupal}
+  hard_benign:   # framework hợp lệ dùng call_user_func/eval-like — subset "khó" để đo FP
+    - {name: symfony_di, path: data/raw/benign/hard}
+out_manifest: experiments/dataset/manifest_raw.csv

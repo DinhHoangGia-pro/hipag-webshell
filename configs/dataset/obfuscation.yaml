@@ -1,0 +1,11 @@
+# Ma trận obfuscation held-out (RQ2/K2): thao-tác-hoá mức obfuscation thành biến có thang đo.
+# KHÔNG train trên tập này — chỉ đo kháng obfuscation.
+levels:                      # mỗi level = một phép biến đổi giữ ngữ nghĩa
+  - {id: L0, name: none}
+  - {id: L1, name: comment_insert}
+  - {id: L2, name: base64_wrap}
+  - {id: L3, name: gzinflate_wrap}
+  - {id: L4, name: var_function}
+  - {id: L5, name: multi_layer}   # L2∘L4 lồng nhau
+source_webshells: experiments/dataset/splits.csv   # lấy từ test, biến đổi
+out_dir: data/obfuscation_matrix

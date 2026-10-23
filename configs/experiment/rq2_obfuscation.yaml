@@ -1,0 +1,8 @@
+# RQ2 — kháng obfuscation (ma trận held-out, phân tầng theo level)
+inherit: configs/model/hipag_base.yaml
+splits: experiments/dataset/splits.csv
+seeds: [0, 1, 2, 3, 4]      # 5-seed, báo mean ± sd
+report:
+  metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
+  base_rate_precision: [0.10, 0.01, 0.001]   # RQF-07
+  write_numbers_tex: paper/numbers.tex

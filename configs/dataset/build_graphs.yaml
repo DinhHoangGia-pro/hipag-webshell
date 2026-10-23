@@ -1,0 +1,14 @@
+parser:
+  php_bin: php
+  phpparser_entry: tools/php/dump_ast.php   # nikic/PHP-Parser -> JSON AST
+graph:
+  edges: [E_seq, E_skip, E_cfg, E_dfg, E_sem, E_call, E_include]
+  skip_window_delta: 2        # E_skip δ
+  max_stmt_per_block: 200
+  max_func_per_file: 50       # shrink (giống H-GNN features_small)
+node_features:
+  use_entropy: true
+  use_sink_source_flags: true
+  positional: true
+out_dir: data/features
+out_small_dir: data/features_small

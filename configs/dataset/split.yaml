@@ -1,0 +1,7 @@
+# Split cluster-disjoint theo group (RQF-05): cluster near-dup không tách hai phía.
+group_key: cluster_id
+ratios: {train: 0.70, val: 0.15, test: 0.15}
+stratify_by: [label, source]
+seed: 42
+holdout_cross_dataset: mwf     # tách hẳn, không train
+out_csv: experiments/dataset/splits.csv

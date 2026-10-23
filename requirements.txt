@@ -1,0 +1,9 @@
+torch>=2.2
+torch-geometric>=2.5
+networkx>=3.2
+scikit-learn>=1.4
+numpy>=1.26
+pandas>=2.2
+pyyaml>=6.0
+tqdm>=4.66
+# PHP parsing is done out-of-process via nikic/PHP-Parser (composer); see docs/SETUP_PHP.md
