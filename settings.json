@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag_venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.extraPaths": ["./src"],
+  "search.exclude": {
+    "**/vendor": true,
+    "**/data": true,
+    "**/.venv": true
+  }
+}

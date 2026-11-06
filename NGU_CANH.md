@@ -1,14 +1,15 @@
 # NGU_CANH — context handoff (git-excluded)
 
-> File bàn giao ngữ cảnh giữa các phiên (Claude Code / Copilot). KHÔNG commit.
+## Môi trường
+- venv: /home/dhgia/Work/WorkingD/WORK/Research/2027/hipag_venv  (activate trước khi chạy)
+- repo: /home/dhgia/Work/WorkingD/WORK/Research/2027/hipag-webshell
+- Python hệ thống = python3 (3.14, PEP 668). PHP parser: nikic/php-parser v5.9.0 (composer, trong repo).
+- Lưu ý: nếu torch không cài được trên 3.14 → venv bằng python3.12.
 
-## Trạng thái hiện tại
-- [ ] Pipeline dữ liệu: ...
-- [ ] Taint predictor well-posed: ...
-- [ ] 5-seed RQ1: ...
+## Trạng thái
+- [x] Worth đóng (demand/novelty/tiêu đề) — Bước 1–3.
+- [ ] Bước 5: well-pose Taint-Dependency Predictor  ← đang tới
+- [ ] Bước 4/6/7, rồi DATA (Bước 8+).
 
 ## Số liệu mới nhất
-- (dán mean±sd ở đây khi có)
-
-## TODO kế tiếp
-- (bám KE_HOACH_HOAN_THIEN.md, phase nào đang chạy)
+- (chưa có; điền khi chạy 5-seed)

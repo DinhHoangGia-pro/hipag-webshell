@@ -28,7 +28,7 @@
 
 | # | Việc | Đóng finding | Đầu ra | File liên quan |
 |---|---|---|---|---|
-| T0.1 | Trích **demand**: ≥1 **E1** (OWASP Testing Guide / CWE-webshell, CWE-94/78 RCE) + ≥1 **E3** (survey webshell) có DOI/URL; xác minh mốc 21/10/2026 (nếu dùng) | RQF-01, RQF-04-demand | Đoạn Introduction + mục Related Work có nguồn | `paper/` (bản thảo .tex sau) |
+| T0.1 | Trích **demand**: ≥1 **E1** (OWASP Testing Guide / CWE-webshell, CWE-94/78 RCE) + ≥1 **E3** (survey webshell) có DOI/URL | RQF-01, RQF-04-demand | Đoạn Introduction + mục Related Work có nguồn | `paper/` (bản thảo .tex sau) |
 | T0.2 | **Quét bão hoà prior-art** webshell dựa đồ thị (AST-GCN/CFG-GNN/opcode-graph) trên DBLP/ACM/IEEE/Scopus; lập **bảng delta số** HiPaG vs từng bài | RQF-02 | Bảng so sánh + định vị novelty | `docs/related_work_scan.md` (tạo mới) |
 | T0.3 | Viết **C11** tường minh + nhánh kết quả bất lợi | RQF-03 | 1 câu bác-bỏ + cam kết báo cả nhánh thua | `configs/experiment/rq4_ablation.yaml` (đã có mẫu C11) |
 | T0.4 | **Well-pose Taint-Dependency Predictor**: seed source/sink, negative sampling, hàm BCE, hiệu chỉnh τ, cửa sổ CFG/DFG | RQF-06 | Spec hình thức + stub đầy đủ | `src/hipag/model/taint_predictor.py`, `src/hipag/graph/taint_seeds.py` |
