@@ -1,4 +1,6 @@
 # HiPaG-Webshell
+# BAN DU THAO
+# Copyright @ 2026 by Anh Hoang and Hoang Gia Dinh
 
 **Hierarchical Program-Graph Transformer for Obfuscation-Resilient PHP Webshell Detection.**
 
@@ -24,7 +26,7 @@ hipag-webshell/
 └── tools/git_hooks/    # pre-commit chặn file >5MB và data/
 ```
 
-## Quy ước bất di bất dịch (giống H-GNN)
+## Quy ước
 
 - `data/` **không bao giờ** lên git; số liệu sinh ra ghi provenance hash vào `experiments/dataset/`.
 - Split **cluster-disjoint** (near-duplicate không nằm hai phía) — xem `scripts/dataset/05_make_splits.py` (RQF-05).

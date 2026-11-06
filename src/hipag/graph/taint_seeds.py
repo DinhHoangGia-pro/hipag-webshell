@@ -48,3 +48,60 @@ def classify_token(name: str) -> str | None:
     if key in _DEC:
         return "decode"
     return None
+
+
+def token_roles(tokens) -> set[str]:
+    """Tập vai trò {'source','sink','decode'} xuất hiện trong danh sách token của một nút."""
+    out = set()
+    for t in tokens:
+        r = classify_token(t)
+        if r is not None:
+            out.add(r)
+    return out
+
+
+def primary_role(tokens) -> str | None:
+    """Vai trò chính của một nút statement để sinh cặp giám sát yếu.
+
+    Ưu tiên sink > source > decode: statement kiểu `eval($_GET['x'])` được coi là SINK
+    (nó là nơi tiêu thụ taint). Hệ quả: cặp source->sink trong CÙNG một statement không
+    sinh positive (i != j); thông tin đó vẫn có trong cờ vai trò multi-hot của đặc trưng nút.
+    TODO(RQF-06): chốt quy ước này trong Bước 5 (self-pair hay tách nút biểu thức).
+    """
+    roles = token_roles(tokens)
+    for r in ("sink", "source", "decode"):
+        if r in roles:
+            return r
+    return None
+
+
+def reachable_within(edges, num_nodes: int, max_hops: int):
+    """Trả callable reachable(i, j): True nếu j tới được từ i trong ≤ max_hops bước
+    theo `edges` (iterable (u, v) có hướng — thường là CFG ∪ DFG ∪ E_seq trong hàm).
+    BFS lười + cache theo nút nguồn. i == j trả False (không xét self-loop)."""
+    adj: list[list[int]] = [[] for _ in range(num_nodes)]
+    for u, v in edges:
+        adj[u].append(v)
+    cache: dict[int, set[int]] = {}
+
+    def reach_set(i: int) -> set[int]:
+        if i not in cache:
+            seen, frontier = {i}, [i]
+            for _ in range(max_hops):
+                nxt = []
+                for u in frontier:
+                    for v in adj[u]:
+                        if v not in seen:
+                            seen.add(v); nxt.append(v)
+                if not nxt:
+                    break
+                frontier = nxt
+            seen.discard(i)
+            cache[i] = seen
+        return cache[i]
+
+    def reachable(i: int, j: int) -> bool:
+        return i != j and j in reach_set(i)
+
+    reachable.reach_set = reach_set   # dùng để liệt kê cặp ứng viên
+    return reachable

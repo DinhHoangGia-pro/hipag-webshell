@@ -1,14 +1,16 @@
-
 # tài liệu nội bộ — KHÔNG lên git
 CHECKLIST.md
 CLAUDE.md
 INDEX.md
 KE_HOACH_HOAN_THIEN.md
 NGU_CANH.md
+PROMPTS.md
 
-# tài liệu nội bộ — KHÔNG lên git
-CHECKLIST.md
-CLAUDE.md
-INDEX.md
-KE_HOACH_HOAN_THIEN.md
-NGU_CANH.md
+# dữ liệu / paper / build — KHÔNG lên git
+/data/
+/paper/
+/vendor/
+/experiments/runs/
+__pycache__/
+*.pyc
+.pytest_cache/

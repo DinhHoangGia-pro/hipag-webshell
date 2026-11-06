@@ -1,0 +1,26 @@
+# RQ5 / Bước 5 — chọn siêu tham số Taint-Dependency Predictor (RQF-06).
+# Chạy ĐẦU phiên TRAINING trên val THẬT, trước RQ1–RQ4; chép giá trị thắng vào configs/model/hipag_base.yaml.
+#   python scripts/run_experiment.py --config configs/experiment/rq5_taint_hparams.yaml --seeds 5
+# 9 điểm × 5 seed = 45 lần train. Chạy lại cùng lệnh sẽ bỏ qua seed đã xong (resume).
+inherit: configs/model/hipag_base.yaml
+splits: experiments/dataset/splits.csv
+seeds: [0, 1, 2, 3, 4]      # 5-seed, báo mean ± sd
+
+model:
+  taint_predictor:
+    tau_floor: 0.3          # CỐ ĐỊNH trong sweep
+
+sweep:                      # tích Descartes 3 × 3; mỗi điểm ablation=full
+  model.taint_predictor.top_k: [4, 8, 16]
+  model.taint_predictor.warmup_epochs: [3, 5, 8]
+
+select:
+  split: val
+  metric: f1_macro          # chọn theo val macro-F1 — KHÔNG nhìn test khi chọn siêu tham số
+
+eval_sets: {}               # sweep chỉ đánh giá trên val; test giữ nguyên cho RQ1–RQ4
+
+report:
+  metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
+  base_rate_precision: [0.10, 0.01, 0.001]
+  # KHÔNG có write_numbers_tex: sweep là bước chọn siêu tham số, không phải kết quả paper

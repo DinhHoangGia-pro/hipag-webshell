@@ -8,7 +8,11 @@ bằng link-prediction YẾU-GIÁM-SÁT trên biểu diễn nút:
 Giám sát yếu:
   - positive : cặp (node source, node sink) có đường đi trong cửa sổ CFG/DFG (reachable) — "nên có cạnh E_sem".
   - negative : cặp lấy mẫu không thoả điều kiện seed, tỉ lệ `neg_per_pos`.
-Loss = BCE. Ngưỡng `tau` hiệu chỉnh trên validation để tối đa F1 của cạnh.
+Loss = BCE. Ngưỡng `tau` hiệu chỉnh trên validation để tối đa F1 của cạnh, có SÀN `tau_floor`.
+
+Chọn cạnh E_sem (select_edges): giữ cặp có p > max(tau, tau_floor) VÀ nằm trong TOP-K theo p
+trong số các ứng viên cùng đích (mỗi sink nhận ≤ top_k cạnh vào) — chặn bùng số cạnh khi
+predictor chưa phân biệt được (τ hiệu chỉnh tụt thấp -> giữ gần hết ứng viên).
 
 I/O:
   h               : Tensor [N, d]     — biểu diễn ẩn các nút (sau tier-1/tier-2).
@@ -23,9 +27,12 @@ import torch.nn.functional as F
 
 
 class TaintDependencyPredictor(nn.Module):
-    def __init__(self, d_in: int, mlp_hidden: int = 128, tau: float = 0.5, dropout: float = 0.1):
+    def __init__(self, d_in: int, mlp_hidden: int = 128, tau: float = 0.5, dropout: float = 0.1,
+                 tau_floor: float = 0.0, top_k: int | None = None):
         super().__init__()
         self.tau = tau
+        self.tau_floor = tau_floor
+        self.top_k = top_k
         self.mlp = nn.Sequential(
             nn.Linear(2 * d_in, mlp_hidden),
             nn.ReLU(),
@@ -42,14 +49,27 @@ class TaintDependencyPredictor(nn.Module):
     def forward(self, h: torch.Tensor, candidate_pairs: torch.Tensor) -> torch.Tensor:
         return self.edge_logit(h, candidate_pairs)
 
+    @property
+    def effective_tau(self) -> float:
+        return max(float(self.tau), float(self.tau_floor))
+
+    def select_edges(self, pairs: torch.Tensor, p: torch.Tensor, tau: float | None = None,
+                     top_k: int | None = -1) -> torch.Tensor:
+        """Mặt nạ bool [E]: p > max(tau, tau_floor) VÀ top-k theo p trong mỗi đích (sink).
+        top_k=-1 -> dùng self.top_k; None/≤0 -> không giới hạn. Mặt nạ không mang gradient."""
+        tau = self.effective_tau if tau is None else max(float(tau), float(self.tau_floor))
+        k = self.top_k if top_k == -1 else top_k
+        p = p.detach()
+        return (p > tau) & topk_per_dst(pairs[1], p, k)
+
     @torch.no_grad()
-    def predict_edges(self, h: torch.Tensor, candidate_pairs: torch.Tensor, tau: float | None = None):
-        """Trả (kept_pairs [2, K], probs [K]) với prob > tau — tức các cạnh E_sem được sinh."""
-        tau = self.tau if tau is None else tau
+    def predict_edges(self, h: torch.Tensor, candidate_pairs: torch.Tensor, tau: float | None = None,
+                      top_k: int | None = -1):
+        """Trả (kept_pairs [2, K], probs [K]) — các cạnh E_sem được sinh (ngưỡng có sàn + top-k/sink)."""
         if candidate_pairs.numel() == 0:
             return candidate_pairs, torch.empty(0, device=h.device)
         p = torch.sigmoid(self.edge_logit(h, candidate_pairs))
-        keep = p > tau
+        keep = self.select_edges(candidate_pairs, p, tau, top_k)
         return candidate_pairs[:, keep], p[keep]
 
     def bce_loss(self, h: torch.Tensor, pos_pairs: torch.Tensor, neg_pairs: torch.Tensor,
@@ -69,11 +89,15 @@ class TaintDependencyPredictor(nn.Module):
         return F.binary_cross_entropy_with_logits(logits, labels, pos_weight=pw)
 
 
-def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int = 4096, seed: int | None = None):
+def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int = 4096, seed: int | None = None,
+                     candidates=None, hard_frac: float = 0.5):
     """Sinh cặp giám sát yếu từ seed + khả năng tới được (reachable).
 
-    node_roles : seq độ dài N, phần tử ∈ {'source','sink','decode',None} (taint_seeds.classify_token).
+    node_roles : seq độ dài N, phần tử ∈ {'source','sink','decode',None} (graph.taint_seeds.primary_role).
     reachable  : callable(i, j) -> bool — True nếu j tới được từ i trong cửa sổ CFG/DFG.
+    candidates : (tuỳ chọn) list cặp (i, j) ứng viên E_sem. Nếu có, ~`hard_frac` mẫu âm được lấy
+                 từ các ứng viên KHÔNG phải positive (hard negative — cùng phân phối với lúc suy
+                 luận, vì predictor chỉ chấm điểm trên ứng viên); phần còn lại lấy ngẫu nhiên.
     Trả (pos_pairs [2, P], neg_pairs [2, Nneg]) LongTensor.
     """
     rng = random.Random(seed)
@@ -87,6 +111,12 @@ def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int =
 
     n_neg = len(pos) * neg_per_pos
     neg: set[tuple[int, int]] = set()
+    if candidates and n_neg:
+        pos_set = set(pos)
+        pool = [c for c in candidates
+                if c not in pos_set and not (node_roles[c[0]] == "source" and node_roles[c[1]] == "sink")]
+        k = min(len(pool), int(round(n_neg * hard_frac)))
+        neg.update(rng.sample(pool, k))
     guard = 0
     while len(neg) < n_neg and guard < max(n_neg * 20, 1) and N > 1:
         guard += 1
@@ -105,11 +135,32 @@ def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int =
 
 
 @torch.no_grad()
-def calibrate_tau(probs: torch.Tensor, labels: torch.Tensor, steps: int = 101) -> float:
-    """Chọn tau tối đa F1 cạnh trên validation. probs, labels: [M] (labels ∈ {0,1})."""
-    best_tau, best_f1 = 0.5, -1.0
+def topk_per_dst(dst: torch.Tensor, score: torch.Tensor, k: int | None) -> torch.Tensor:
+    """Mặt nạ bool [E]: True nếu cạnh nằm trong k cạnh có score cao nhất cùng đích `dst`.
+    Hoà điểm: ưu tiên chỉ số cạnh nhỏ hơn (tất định). k None/≤0 -> giữ hết."""
+    E = dst.numel()
+    if k is None or k <= 0 or E == 0:
+        return torch.ones(E, dtype=torch.bool, device=dst.device)
+    order = torch.argsort(score, descending=True, stable=True)          # theo điểm giảm dần
+    perm = order[torch.argsort(dst[order], stable=True)]                # gom theo đích, giữ thứ tự điểm
+    ds = dst[perm]
+    idx = torch.arange(E, device=dst.device)
+    is_start = torch.ones(E, dtype=torch.bool, device=dst.device)
+    is_start[1:] = ds[1:] != ds[:-1]
+    group_start = torch.cummax(torch.where(is_start, idx, torch.zeros_like(idx)), dim=0).values
+    mask = torch.zeros(E, dtype=torch.bool, device=dst.device)
+    mask[perm] = (idx - group_start) < k
+    return mask
+
+
+@torch.no_grad()
+def calibrate_tau(probs: torch.Tensor, labels: torch.Tensor, steps: int = 101, tau_floor: float = 0.0) -> float:
+    """Chọn tau ≥ tau_floor tối đa F1 cạnh trên validation. probs, labels: [M] (labels ∈ {0,1})."""
+    best_tau, best_f1 = max(0.5, tau_floor), -1.0
     for k in range(steps):
         t = k / (steps - 1)
+        if t < tau_floor:
+            continue
         pred = probs > t
         tp = (pred & (labels > 0.5)).sum().item()
         fp = (pred & (labels <= 0.5)).sum().item()

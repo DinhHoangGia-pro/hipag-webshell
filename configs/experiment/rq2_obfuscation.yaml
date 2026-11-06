@@ -6,3 +6,12 @@ report:
   metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
   base_rate_precision: [0.10, 0.01, 0.001]   # RQF-07
   write_numbers_tex: paper/numbers.tex
+# TODO(Bước 16): bật khi đã có ma trận obfuscation trong splits.csv (cột split=obf, level=L0..L5).
+# Thiếu khoá này, harness đánh giá trên split=test — tức TRÙNG RQ1.
+# eval_sets:
+#   L0: {split: obf, where: {level: L0}}
+#   L1: {split: obf, where: {level: L1}}
+#   L2: {split: obf, where: {level: L2}}
+#   L3: {split: obf, where: {level: L3}}
+#   L4: {split: obf, where: {level: L4}}
+#   L5: {split: obf, where: {level: L5}}
