@@ -1,0 +1,53 @@
+[build] tổng 9964; đã có 0; cần dựng 9964
+  [build] 25/312 chunk
+  [build] 50/312 chunk
+  [build] 75/312 chunk
+  [build] 100/312 chunk
+  [build] 125/312 chunk
+  [build] 150/312 chunk
+  [build] 175/312 chunk
+  [build] 200/312 chunk
+  [build] 225/312 chunk
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 264, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag-webshell/src/hipag/data/build.py", line 51, in build_chunk
+    torch.save(d, out_dir / gp)
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag_venv/lib/python3.12/site-packages/torch/serialization.py", line 1003, in save
+    with _open_zipfile_writer(f) as opened_zipfile:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag_venv/lib/python3.12/site-packages/torch/serialization.py", line 865, in _open_zipfile_writer
+    return container(name_or_buffer)  # type: ignore[arg-type]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag_venv/lib/python3.12/site-packages/torch/serialization.py", line 829, in __init__
+    torch._C.PyTorchFileWriter(
+RuntimeError: [enforce fail at inline_container.cc:746] . open file failed with strerror: No space left on device
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag-webshell/scripts/dataset/04_build_graphs.py", line 39, in <module>
+    main(ap.parse_args())
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag-webshell/scripts/dataset/04_build_graphs.py", line 26, in main
+    stats = run_build(rows, cfg, ROOT / cfg["out_small_dir"] / "_build_log.jsonl")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dhgia/Work/WorkingD/WORK/Research/2027/hipag-webshell/src/hipag/data/build.py", line 89, in run_build
+    for s in f.result():
+             ^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+RuntimeError: [enforce fail at inline_container.cc:746] . open file failed with strerror: No space left on device
+[build] tổng 9964; đã có 7392; cần dựng 2572
+  [build] 25/81 chunk
+  [build] 50/81 chunk
+  [build] 75/81 chunk
+  [build] 81/81 chunk
+status x label: {('fallback_tokens', '0'): 1, ('fallback_tokens', '1'): 71, ('ok', '0'): 7208, ('ok', '1'): 2562, ('recovered', '0'): 1, ('recovered', '1'): 121}
+-> 9964 đồ thị trong data/features_small; parse không sạch: 194 (ghi experiments/dataset/parse_fail.csv)

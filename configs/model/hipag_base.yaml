@@ -8,11 +8,16 @@ model:
     tau: 0.5             # khởi tạo; hiệu chỉnh trên val mỗi epoch (max F1 cạnh)
     tau_floor: 0.3       # sàn của tau -> không giữ cặp xác suất thấp khi predictor còn yếu
     top_k: 8             # mỗi sink (đích) nhận ≤ top_k cạnh E_sem có p cao nhất
-    warmup_epochs: 5     # epoch đầu: E_sem = luật (seed source->sink tới được), sau đó cạnh học được
+    warmup_epochs: 3     # epoch đầu: E_sem = luật (seed source->sink tới được), sau đó cạnh học được
     pos_weight: auto     # BCE cạnh: n_neg/n_pos mỗi batch; cần để tau_floor (ngưỡng tuyệt đối) có nghĩa
   global_features:   [shannon_entropy, has_eval, has_decode, has_var_func]
   dropout: 0.1
   pool: max            # global max-pool (giống H-GNN headline); mean-pool chỉ trong ablation
+esem:                  # dựng cặp E_sem trong builder (scripts/dataset/04) — MỘT nguồn; build_graphs.yaml trỏ tới đây
+  esem_hop: 12         # cửa sổ hop CFG∪DFG∪E_seq cho cặp ứng viên/nhãn trong-hàm (trước: 8)
+  interproc_depth: 2   # số call-hop tối đa khi bridge taint liên thủ tục (arg->param)
+  max_cand: 4096       # cap ứng viên/đồ thị; cap thông minh giữ cặp source->sink trước
+  cross_function: true # bật bridge liên thủ tục qua E_call (gated theo tham số)
 train:
   lr: 2.0e-4
   weight_decay: 1.0e-4

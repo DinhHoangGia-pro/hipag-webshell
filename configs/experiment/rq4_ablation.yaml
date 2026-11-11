@@ -8,11 +8,18 @@ report:
   write_numbers_tex: paper/numbers.tex
 ablation:               # TODO(RQF-10): đúng K=6 dòng, mỗi dòng tắt một thành phần
   - full
+  - rule_e_sem            # E_sem chỉ bằng luật seed source->sink
   - no_token_transformer   # tier1 -> embedding tĩnh
   - no_e_sem               # bỏ cạnh ngữ nghĩa học được
   - no_e_dfg               # bỏ data-flow
   - no_inter_transformer   # bỏ tầng file (chỉ trong-hàm)
   - no_global_features
   - pool_mean              # max -> mean
+eval_sets:
+  test: {split: test}
+  source_sink_c: {csv: experiments/dataset/slice_source_sink_c.csv}
 # C11 (RQF-03) — tiêu chí bác bỏ:
 #   coi là KHÔNG nếu (full) - (no_e_sem) < 0.5 pp macro-F1 ở MỌI level obfuscation, CI95 chồng lấn.
+falsification:            # C11 dạng có cấu trúc (scripts/emit_paper_numbers.py -> \CElevenMargin; không đọc comment)
+  c11_margin_pp: 0.5      # ngưỡng (full - no_e_sem) macro-F1, điểm phần trăm
+  c11_metric: f1_macro

@@ -1,0 +1,337 @@
+{
+  "stage": "raw (truoc dedup) — benign foil KHÓ",
+  "per_source": {
+    "adminer": {
+      "available": 187,
+      "selected": 108,
+      "hard": 37,
+      "axis": "behavior"
+    },
+    "carbon_lang": {
+      "available": 629,
+      "selected": 150,
+      "hard": 1,
+      "axis": "payload"
+    },
+    "country_list": {
+      "available": 177,
+      "selected": 40,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "dokuwiki": {
+      "available": 1247,
+      "selected": 431,
+      "hard": 43,
+      "axis": "style"
+    },
+    "drupal": {
+      "available": 10405,
+      "selected": 150,
+      "hard": 13,
+      "axis": "framework"
+    },
+    "e107": {
+      "available": 1911,
+      "selected": 700,
+      "hard": 162,
+      "axis": "behavior"
+    },
+    "elfinder": {
+      "available": 33,
+      "selected": 15,
+      "hard": 8,
+      "axis": "behavior"
+    },
+    "fluxbb": {
+      "available": 98,
+      "selected": 48,
+      "hard": 15,
+      "axis": "style"
+    },
+    "kcfinder": {
+      "available": 68,
+      "selected": 25,
+      "hard": 4,
+      "axis": "behavior"
+    },
+    "kint": {
+      "available": 125,
+      "selected": 54,
+      "hard": 1,
+      "axis": "payload"
+    },
+    "laravel": {
+      "available": 3034,
+      "selected": 150,
+      "hard": 16,
+      "axis": "framework"
+    },
+    "libphonenumber_data": {
+      "available": 1065,
+      "selected": 200,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "mantisbt": {
+      "available": 537,
+      "selected": 278,
+      "hard": 46,
+      "axis": "style"
+    },
+    "mpdf_data": {
+      "available": 72,
+      "selected": 23,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "mybb": {
+      "available": 516,
+      "selected": 243,
+      "hard": 57,
+      "axis": "behavior"
+    },
+    "oscommerce2": {
+      "available": 432,
+      "selected": 193,
+      "hard": 61,
+      "axis": "style"
+    },
+    "phpmailer_lang": {
+      "available": 1,
+      "selected": 1,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "phpsysinfo": {
+      "available": 99,
+      "selected": 62,
+      "hard": 31,
+      "axis": "behavior"
+    },
+    "phpvirtualbox": {
+      "available": 19,
+      "selected": 10,
+      "hard": 4,
+      "axis": "behavior"
+    },
+    "piwigo": {
+      "available": 710,
+      "selected": 293,
+      "hard": 50,
+      "axis": "style"
+    },
+    "pluck": {
+      "available": 250,
+      "selected": 98,
+      "hard": 7,
+      "axis": "style"
+    },
+    "polyfill_idn": {
+      "available": 9,
+      "selected": 5,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "polyfill_normalizer": {
+      "available": 6,
+      "selected": 3,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "serendipity": {
+      "available": 1159,
+      "selected": 627,
+      "hard": 60,
+      "axis": "style"
+    },
+    "smarty": {
+      "available": 168,
+      "selected": 66,
+      "hard": 18,
+      "axis": "behavior"
+    },
+    "symfony_di": {
+      "available": 785,
+      "selected": 150,
+      "hard": 15,
+      "axis": "framework"
+    },
+    "textpattern": {
+      "available": 312,
+      "selected": 113,
+      "hard": 34,
+      "axis": "behavior"
+    },
+    "tinyfilemanager": {
+      "available": 1,
+      "selected": 1,
+      "hard": 1,
+      "axis": "behavior"
+    },
+    "tracy_templates": {
+      "available": 26,
+      "selected": 11,
+      "hard": 0,
+      "axis": "payload"
+    },
+    "vesta": {
+      "available": 212,
+      "selected": 152,
+      "hard": 123,
+      "axis": "behavior"
+    },
+    "wordpress": {
+      "available": 2075,
+      "selected": 400,
+      "hard": 90,
+      "axis": "framework"
+    },
+    "zencart": {
+      "available": 1409,
+      "selected": 700,
+      "hard": 201,
+      "axis": "style"
+    }
+  },
+  "holdout_benign": 1998,
+  "variants": {
+    "minified": 440,
+    "packed": 165
+  },
+  "n_webshell": 8717,
+  "n_benign": 7498,
+  "benign_train_pool": 5500,
+  "hard_frac_train_pool": 0.2,
+  "by_axis": {
+    "behavior": 1495,
+    "framework": 850,
+    "style": 2668,
+    "payload": 487
+  },
+  "procedure": {
+    "sources_tsv": "experiments/dataset/benign2_sources.tsv",
+    "dl_dir": "data/dl/benign2",
+    "extract_dir": "data/raw/benign2",
+    "white_zip": {
+      "name": "c01dsnap_white",
+      "zip": "data/dl/c01dsnap_Webshell_White.zip",
+      "prefix": "White/PHP/",
+      "axis": "style",
+      "holdout_pick_seed": "42:c01dsnap_benign",
+      "holdout_n": 2000,
+      "enabled": false
+    },
+    "holdout_existing": {
+      "name": "c01dsnap_benign",
+      "path": "data/raw/c01dsnap_benign"
+    },
+    "per_source_cap": 700,
+    "white_cap": 0,
+    "source_caps": {
+      "tcpdf_fonts": 150,
+      "fpdf_fonts": 60,
+      "libphonenumber_data": 200,
+      "polyfill_normalizer": 20,
+      "polyfill_mbstring": 20,
+      "polyfill_idn": 20,
+      "mpdf_data": 120,
+      "tracy_templates": 60,
+      "kint": 60,
+      "country_list": 120,
+      "carbon_lang": 150,
+      "phpmailer_lang": 60
+    },
+    "n_target": 5500,
+    "bins": {
+      "log10_size_step": 0.5,
+      "entropy_step": 0.5
+    },
+    "density_power": 0.5,
+    "w_floor": 0.1,
+    "hard_boost": 2.0,
+    "minify_frac": 0.08,
+    "pack_frac": 0.03,
+    "seed": 42,
+    "backdoor_regex": "(?<![>:$\\w])(eval|assert|system|exec|passthru|shell_exec|popen|proc_open|create_function)\\s*\\(\\s*(@\\s*)?((base64_decode|gzinflate|str_rot13|stripslashes|urldecode)\\s*\\(\\s*)*\\$_(GET|POST|REQUEST|COOKIE|SERVER)\\b"
+  },
+  "density": {
+    "bins_ws": {
+      "(2, 7)": 3,
+      "(2, 8)": 13,
+      "(2, 9)": 6,
+      "(3, 7)": 9,
+      "(3, 8)": 33,
+      "(3, 9)": 155,
+      "(3, 10)": 49,
+      "(3, 11)": 1,
+      "(4, 2)": 1,
+      "(4, 6)": 1,
+      "(4, 7)": 6,
+      "(4, 8)": 29,
+      "(4, 9)": 95,
+      "(4, 10)": 171,
+      "(4, 11)": 32,
+      "(4, 12)": 10,
+      "(5, 4)": 1,
+      "(5, 5)": 8,
+      "(5, 6)": 5,
+      "(5, 7)": 12,
+      "(5, 8)": 18,
+      "(5, 9)": 33,
+      "(5, 10)": 102,
+      "(5, 11)": 51,
+      "(5, 12)": 11,
+      "(5, 14)": 2,
+      "(6, 1)": 2,
+      "(6, 4)": 1,
+      "(6, 5)": 6,
+      "(6, 6)": 1,
+      "(6, 8)": 9,
+      "(6, 9)": 30,
+      "(6, 10)": 278,
+      "(6, 11)": 97,
+      "(6, 12)": 76,
+      "(6, 13)": 4,
+      "(7, 8)": 6,
+      "(7, 9)": 27,
+      "(7, 10)": 101,
+      "(7, 11)": 56,
+      "(7, 12)": 23,
+      "(8, 6)": 2,
+      "(8, 7)": 2,
+      "(8, 8)": 7,
+      "(8, 9)": 45,
+      "(8, 10)": 94,
+      "(8, 11)": 109,
+      "(8, 12)": 96,
+      "(8, 15)": 3,
+      "(9, 6)": 2,
+      "(9, 7)": 2,
+      "(9, 8)": 6,
+      "(9, 9)": 45,
+      "(9, 10)": 107,
+      "(9, 11)": 287,
+      "(9, 12)": 143,
+      "(9, 13)": 1,
+      "(10, 6)": 6,
+      "(10, 7)": 5,
+      "(10, 8)": 5,
+      "(10, 9)": 19,
+      "(10, 10)": 40,
+      "(10, 11)": 302,
+      "(10, 12)": 89,
+      "(10, 13)": 1,
+      "(10, 14)": 1,
+      "(11, 8)": 2,
+      "(11, 10)": 2,
+      "(11, 11)": 43,
+      "(11, 12)": 17,
+      "(11, 13)": 1,
+      "(11, 14)": 2,
+      "(12, 11)": 2
+    },
+    "n_ws_ref": 3062,
+    "n_pool": 27779
+  }
+}

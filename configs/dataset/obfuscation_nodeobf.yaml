@@ -1,0 +1,6 @@
+# Ablation no_deobf cho ma trận obfuscation: y hệt obfuscation.yaml nhưng dựng đồ thị obf với deobf TẮT
+# (graphs -> build_graphs_nodeobf.yaml -> out_small_dir=features_small_nodeobf, log obf riêng ở đó).
+# PHP obf sinh ra giống hệt (obfuscate.php tất định) nên splits.csv/obf_manifest không đổi.
+inherit: configs/dataset/obfuscation.yaml
+graphs: configs/dataset/build_graphs_nodeobf.yaml
+out_manifest: experiments/dataset/obfuscation_manifest_nodeobf.csv

@@ -1,0 +1,9 @@
+# Ablation no_deobf (UPG-02): y hệt build_graphs.yaml nhưng TẮT giải vỏ tĩnh, ghi ra thư mục/stats RIÊNG.
+#   python scripts/dataset/04_build_graphs.py --config configs/dataset/build_graphs_nodeobf.yaml
+# run_build từ chối resume khi trộn đồ thị có/không deobf trong cùng out_small_dir.
+inherit: configs/dataset/build_graphs.yaml
+parser:
+  deobf: false
+out_small_dir: data/features_small_nodeobf
+out_stats: experiments/dataset/graph_stats_nodeobf.csv
+out_parse_fail: experiments/dataset/parse_fail_nodeobf.csv

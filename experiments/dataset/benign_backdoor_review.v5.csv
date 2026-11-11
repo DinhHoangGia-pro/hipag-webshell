@@ -1,0 +1,2 @@
+source,archive,member,backdoor_match,size
+e107,data/dl/benign2/e107.tar.gz,e107-f0dc448d65015c76e1a3b992f3fae289d03c796c/e107_handlers/core_functions.php,passthru($_GET,29608

@@ -1,0 +1,62 @@
+{
+  "n_raw": 16215,
+  "drop_reason": {
+    "exact_dup": 6019,
+    "trivial": 17
+  },
+  "n_keep": 10179,
+  "n_clusters": 9005,
+  "n_near_dup_pairs": 5736,
+  "cluster_size": {
+    "max": 62,
+    "mean": 1.1303720155469184,
+    "n_singleton": 8545
+  },
+  "n_mixed_label_clusters": 0,
+  "keep_by_source_label": {
+    "adminer/0": 66,
+    "c01dsnap/1": 573,
+    "c01dsnap_benign/0": 1979,
+    "c01dsnap_white/0": 1942,
+    "cycle183/1": 1726,
+    "dokuwiki/0": 235,
+    "drupal/0": 148,
+    "e107/0": 618,
+    "elfinder/0": 11,
+    "fluxbb/0": 35,
+    "johntroony/1": 89,
+    "kcfinder/0": 14,
+    "laravel/0": 150,
+    "mantisbt/0": 173,
+    "mybb/0": 134,
+    "oscommerce2/0": 111,
+    "phpsysinfo/0": 43,
+    "phpvirtualbox/0": 5,
+    "piwigo/0": 176,
+    "pluck/0": 56,
+    "serendipity/0": 419,
+    "smarty/0": 29,
+    "symfony_di/0": 130,
+    "tennc/1": 366,
+    "textpattern/0": 59,
+    "tinyfilemanager/0": 1,
+    "vesta/0": 91,
+    "wordpress/0": 399,
+    "zencart/0": 401
+  },
+  "params": {
+    "normalize": {
+      "strip_comments": true,
+      "strip_whitespace": true,
+      "lowercase_tokens": false
+    },
+    "near_dup": {
+      "method": "minhash",
+      "threshold": 0.85,
+      "shingle": 5,
+      "num_perm": 128,
+      "seed": 1
+    },
+    "min_tokens": 3
+  }
+}

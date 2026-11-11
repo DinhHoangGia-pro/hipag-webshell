@@ -1,7 +1,13 @@
 # Split cluster-disjoint theo group (RQF-05): cluster near-dup không tách hai phía.
+manifest: experiments/dataset/manifest.csv
+graph_stats: experiments/dataset/graph_stats.csv     # lấy graph_path (tương đối theo data/features_small)
 group_key: cluster_id
 ratios: {train: 0.70, val: 0.15, test: 0.15}
 stratify_by: [label, source]
 seed: 42
-holdout_cross_dataset: mwf     # tách hẳn, không train
+# Holdout cross-dataset: mọi hàng role=holdout_cross_dataset (c01dsnap webshell + c01dsnap_benign; thay MWF).
+# Chỉ giữ mẫu holdout có cụm KHÔNG chứa mẫu train_pool nào -> holdout thật sự chưa từng thấy; phần còn lại bị
+# loại khỏi mọi split (đếm trong split_summary.json).
+holdout_role: holdout_cross_dataset
 out_csv: experiments/dataset/splits.csv
+out_summary: experiments/dataset/split_summary.json

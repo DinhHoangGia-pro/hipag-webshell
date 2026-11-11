@@ -1,0 +1,42 @@
+{
+  "n_raw": 16001,
+  "drop_reason": {
+    "exact_dup": 6034,
+    "trivial": 3
+  },
+  "n_keep": 9964,
+  "n_clusters": 8885,
+  "n_near_dup_pairs": 4792,
+  "cluster_size": {
+    "max": 62,
+    "mean": 1.1214406302757456,
+    "n_singleton": 8466
+  },
+  "n_mixed_label_clusters": 0,
+  "keep_by_source_label": {
+    "c01dsnap/1": 573,
+    "c01dsnap_benign/0": 1939,
+    "cycle183/1": 1726,
+    "drupal/0": 1499,
+    "johntroony/1": 89,
+    "laravel/0": 1500,
+    "symfony_di/0": 785,
+    "tennc/1": 366,
+    "wordpress/0": 1487
+  },
+  "params": {
+    "normalize": {
+      "strip_comments": true,
+      "strip_whitespace": true,
+      "lowercase_tokens": false
+    },
+    "near_dup": {
+      "method": "minhash",
+      "threshold": 0.85,
+      "shingle": 5,
+      "num_perm": 128,
+      "seed": 1
+    },
+    "min_tokens": 3
+  }
+}

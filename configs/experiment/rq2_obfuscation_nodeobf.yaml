@@ -1,0 +1,17 @@
+# RQ2 — ma trận obfuscation với tiền xử lý deobfuscation TẮT.
+inherit: configs/model/hipag_base.yaml
+splits: experiments/dataset/splits.csv
+data:
+  features_dir: data/features_small_nodeobf
+seeds: [0, 1, 2, 3, 4]
+report:
+  metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
+  base_rate_precision: [0.10, 0.01, 0.001]
+  write_numbers_tex: paper/numbers.tex
+eval_sets:
+  obf_off_L0: {split: obf, where: {level: L0}}
+  obf_off_L1: {split: obf, where: {level: L1}}
+  obf_off_L2: {split: obf, where: {level: L2}}
+  obf_off_L3: {split: obf, where: {level: L3}}
+  obf_off_L4: {split: obf, where: {level: L4}}
+  obf_off_L5: {split: obf, where: {level: L5}}

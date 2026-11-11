@@ -10,7 +10,7 @@ import re
 import zlib
 from collections import Counter
 
-from .taint_seeds import DECODERS, token_roles
+from .taint_seeds import DECODERS, stmt_roles
 
 # Loại statement (tên nút nikic/PHP-Parser đã bỏ tiền tố Stmt_/Expr_). Ngoài danh sách -> 'Other'.
 STMT_KINDS = [
@@ -46,11 +46,11 @@ def kind_index(kind: str) -> int:
 
 
 def node_vector(node: dict, pos: int = 0, n_in_func: int = 1) -> list[float]:
-    """node = {'kind': str, 'text': str, 'tokens': [str]}.
+    """node = {'kind', 'text', 'tokens', 'calls', 'callargs', 'constructs'} (statement IR; sink theo call node).
     Trả [one-hot kind | cờ source,sink,decode | direct_source_sink | entropy/8, log1p(len)/8, vị trí tương đối]."""
     v = [0.0] * NODE_FEAT_DIM
     v[kind_index(node.get("kind", ""))] = 1.0
-    roles = token_roles(node.get("tokens", []))
+    roles = stmt_roles(node)                     # luật call node: cần calls/callargs/constructs của statement
     off = len(STMT_KINDS)
     for r_i, r in enumerate(ROLE_NAMES):
         if r in roles:

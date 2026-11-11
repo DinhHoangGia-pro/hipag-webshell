@@ -1,0 +1,100 @@
+manifest 9964 mẫu; có đồ thị 9964 (thiếu 0); dump PHP: True
+  20/312 chunk
+  40/312 chunk
+  60/312 chunk
+  80/312 chunk
+  100/312 chunk
+  120/312 chunk
+  140/312 chunk
+  160/312 chunk
+  180/312 chunk
+  200/312 chunk
+  220/312 chunk
+  240/312 chunk
+  260/312 chunk
+  280/312 chunk
+  300/312 chunk
+  312/312 chunk
+
+=== BENIGN: 7210 đồ thị ===
+(a) có token source               342 (  4.7%)
+(b) có token sink                 698 (  9.7%)
+(c) có cả hai                     103 (  1.4%)
+  (d) trong (c): ≥1 cặp luật        40 ( 38.8%)   | còn trong tập ứng viên (rule_e_sem/warmup dùng được):     40 ( 38.8%)
+  (e) trong (c): direct flag         5 (  4.9%)   | cả (d) lẫn (e): 4
+  (f) trong (c): không cặp, không cờ     62 ( 60.2%)
+    Nguyên nhân (f) [i/ii/same_fn loại trừ nhau, % trên (f)]:
+      i   source&sink chỉ cùng ở <main>     19 ( 30.6%)  -> cơ chế: beyond_hops(>12) 0, no_forward_path 19, unexplained 0
+      ii  khác hàm (cross-function)         38 ( 61.3%)  -> có đường E_call nối: 8
+      --  cùng một hàm thường                5 (  8.1%)  -> beyond_hops 0, no_forward_path 5, unexplained 0
+      iii qua chuỗi DFG có decoder (chồng lấn)      0 (  0.0%)
+      iv  seed-miss trong cửa sổ (chồng lấn)      4 (  6.5%) trên 62 file căn khớp
+          loại: {'sink:unseeded_name': 3, 'source:unseeded_name': 2}
+          token hay gặp: [('putenv', 2), ('$GLOBALS', 2), ('preg_replace_callback', 1), ('->invoke', 1)]
+  --- PHỦ CANDIDATE (CỔNG): (c) có ≥1 cặp ứng viên source->sink (exact|fallback) HOẶC cờ direct ---
+  (d') trong (c): ≥1 cặp ứng viên có kiểu     40 ( 38.8%)   | nới (tính sink chỉ-ứng-viên):     43 ( 41.7%)
+  (e)  trong (c): direct flag                5 (  4.9%)   | cả (d') lẫn (e): 4
+  (f') trong (c): không ứng viên, không cờ     62 ( 60.2%)
+  => (A) PHỦ CANDIDATE strict (tới sink chặt) =     41 ( 39.8%)
+  => (B) PHỦ CANDIDATE broad (tới sink chặt|chỉ-ứng-viên) =     44 ( 42.7%)
+    Nguyên nhân (f') strict [i/ii/same_fn loại trừ nhau, % trên (f') strict]:
+      i   source&sink chỉ cùng ở <main>     19 ( 30.6%)  -> cơ chế: beyond_hops(>12) 0, no_forward_path 19, unexplained 0
+      ii  khác hàm (cross-function)         38 ( 61.3%)  -> có đường E_call nối: 8
+      --  cùng một hàm thường                5 (  8.1%)  -> beyond_hops 0, no_forward_path 5, unexplained 0
+      iii qua chuỗi DFG có decoder (chồng lấn)      0 (  0.0%)
+      iv  seed-miss trong cửa sổ (chồng lấn)      4 (  6.5%) trên 62 file căn khớp
+          loại: {'sink:unseeded_name': 3, 'source:unseeded_name': 2}
+          token hay gặp: [('putenv', 2), ('$GLOBALS', 2), ('preg_replace_callback', 1), ('->invoke', 1)]
+    (f'') broad: 59 file -> nguyên nhân: {'ii_cross_function': 35, 'same_fn': 5, 'i_global_main': 19}
+  seed-miss mức file (ngoài c): trong 7107 file KHÔNG thuộc (c), 62 sẽ thành (c) nếu mở rộng seed
+  mất (c) do cắt max_func/max_stmt: 16
+  tên sink CHỈ ở literal/identifier (luật call node loại khỏi (b)): 555 file
+  cand_capped:    269 (  3.7%) chạm cap; n_cand sau cap = [4096]; n_cand_full median 8598, max 87638
+  direct_source_sink=1: 5 đồ thị, 16 statement
+
+=== WEBSHELL: 2754 đồ thị ===
+(a) có token source              1963 ( 71.3%)
+(b) có token sink                2219 ( 80.6%)
+(c) có cả hai                    1542 ( 56.0%)
+  (d) trong (c): ≥1 cặp luật      1087 ( 70.5%)   | còn trong tập ứng viên (rule_e_sem/warmup dùng được):   1087 ( 70.5%)
+  (e) trong (c): direct flag       766 ( 49.7%)   | cả (d) lẫn (e): 528
+  (f) trong (c): không cặp, không cờ    217 ( 14.1%)
+    Nguyên nhân (f) [i/ii/same_fn loại trừ nhau, % trên (f)]:
+      i   source&sink chỉ cùng ở <main>     36 ( 16.6%)  -> cơ chế: beyond_hops(>12) 21, no_forward_path 15, unexplained 0
+      ii  khác hàm (cross-function)        179 ( 82.5%)  -> có đường E_call nối: 159
+      --  cùng một hàm thường                2 (  0.9%)  -> beyond_hops 0, no_forward_path 2, unexplained 0
+      iii qua chuỗi DFG có decoder (chồng lấn)      0 (  0.0%)
+      iv  seed-miss trong cửa sổ (chồng lấn)     30 ( 13.8%) trên 217 file căn khớp
+          loại: {'sink:unseeded_name': 16, 'source:unseeded_name': 14, 'sink:text_only': 4, 'sink:seed_in_literal': 2}
+          token hay gặp: [('$GLOBALS', 11), ('curl_exec', 6), ('highlight_file', 5), ('->newinstance', 3), ('stream_get_contents', 2), ('exec()', 2), ('passthru', 2), ('passthru()', 2), ('proc_open()', 2), ('system()', 2), ('exec', 2), ('array_walk', 2)]
+    min_hops source->sink (khi có đường): median 14, max 30, n=21
+  --- PHỦ CANDIDATE (CỔNG): (c) có ≥1 cặp ứng viên source->sink (exact|fallback) HOẶC cờ direct ---
+  (d') trong (c): ≥1 cặp ứng viên có kiểu   1152 ( 74.7%)   | nới (tính sink chỉ-ứng-viên):   1276 ( 82.7%)
+  (e)  trong (c): direct flag              766 ( 49.7%)   | cả (d') lẫn (e): 593
+  (f') trong (c): không ứng viên, không cờ    217 ( 14.1%)
+  => (A) PHỦ CANDIDATE strict (tới sink chặt) =   1325 ( 85.9%)
+  => (B) PHỦ CANDIDATE broad (tới sink chặt|chỉ-ứng-viên) =   1443 ( 93.6%)
+    Nguyên nhân (f') strict [i/ii/same_fn loại trừ nhau, % trên (f') strict]:
+      i   source&sink chỉ cùng ở <main>     36 ( 16.6%)  -> cơ chế: beyond_hops(>12) 21, no_forward_path 15, unexplained 0
+      ii  khác hàm (cross-function)        179 ( 82.5%)  -> có đường E_call nối: 159
+      --  cùng một hàm thường                2 (  0.9%)  -> beyond_hops 0, no_forward_path 2, unexplained 0
+      iii qua chuỗi DFG có decoder (chồng lấn)      0 (  0.0%)
+      iv  seed-miss trong cửa sổ (chồng lấn)     30 ( 13.8%) trên 217 file căn khớp
+          loại: {'sink:unseeded_name': 16, 'source:unseeded_name': 14, 'sink:text_only': 4, 'sink:seed_in_literal': 2}
+          token hay gặp: [('$GLOBALS', 11), ('curl_exec', 6), ('highlight_file', 5), ('->newinstance', 3), ('stream_get_contents', 2), ('exec()', 2), ('passthru', 2), ('passthru()', 2), ('proc_open()', 2), ('system()', 2), ('exec', 2), ('array_walk', 2)]
+    min_hops source->sink (khi có đường): median 14, max 30, n=21
+    (f'') broad: 99 file -> nguyên nhân: {'ii_cross_function': 78, 'i_global_main': 21}
+  seed-miss mức file (ngoài c): trong 1212 file KHÔNG thuộc (c), 184 sẽ thành (c) nếu mở rộng seed
+  mất (c) do cắt max_func/max_stmt: 68
+  tên sink CHỈ ở literal/identifier (luật call node loại khỏi (b)): 233 file
+  cand_capped:   1103 ( 40.1%) chạm cap; n_cand sau cap = [4096]; n_cand_full median 15908, max 87977
+  direct_source_sink=1: 766 đồ thị, 1900 statement
+
+=== TOÀN TẬP ===
+đồ thị: 9964; max_cand (cap) = 4096; max_hops = 12
+cand_capped: 1372 đồ thị
+direct_source_sink=1: 771 đồ thị, 1916 statement
+căn khớp dump lại vs .pt: 9964/9964 OK (lệch: 0)
+parse status của (f): {'ok': 253, 'fallback_tokens': 16, 'recovered': 10}
+
+-> experiments/dataset/esem_coverage.csv

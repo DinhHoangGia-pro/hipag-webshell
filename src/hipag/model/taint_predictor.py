@@ -90,7 +90,7 @@ class TaintDependencyPredictor(nn.Module):
 
 
 def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int = 4096, seed: int | None = None,
-                     candidates=None, hard_frac: float = 0.5):
+                     candidates=None, hard_frac: float = 0.5, extra_pos=None, exclude_neg=None):
     """Sinh cặp giám sát yếu từ seed + khả năng tới được (reachable).
 
     node_roles : seq độ dài N, phần tử ∈ {'source','sink','decode',None} (graph.taint_seeds.primary_role).
@@ -98,6 +98,9 @@ def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int =
     candidates : (tuỳ chọn) list cặp (i, j) ứng viên E_sem. Nếu có, ~`hard_frac` mẫu âm được lấy
                  từ các ứng viên KHÔNG phải positive (hard negative — cùng phân phối với lúc suy
                  luận, vì predictor chỉ chấm điểm trên ứng viên); phần còn lại lấy ngẫu nhiên.
+    extra_pos  : positive bổ sung (vd source->sink chặt bridge liên thủ tục) — gộp, khử trùng.
+    exclude_neg: cặp KHÔNG được làm mẫu âm (vd mọi ứng viên có kiểu source->sink chỉ-ứng-viên: chưa chắc là
+                 taint nên không gán nhãn âm — NHÃN CHẶT cả hai phía).
     Trả (pos_pairs [2, P], neg_pairs [2, Nneg]) LongTensor.
     """
     rng = random.Random(seed)
@@ -106,15 +109,19 @@ def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int =
     sinks = [i for i, r in enumerate(node_roles) if r == "sink"]
 
     pos = [(i, j) for i in sources for j in sinks if i != j and reachable(i, j)]
+    if extra_pos:
+        seen = set(pos)
+        pos += [p for p in map(tuple, extra_pos) if p not in seen and not seen.add(p)]
     if len(pos) > max_pos:
         pos = rng.sample(pos, max_pos)
 
     n_neg = len(pos) * neg_per_pos
     neg: set[tuple[int, int]] = set()
+    pos_set = set(pos)
+    excl = set(map(tuple, exclude_neg)) if exclude_neg else set()
     if candidates and n_neg:
-        pos_set = set(pos)
-        pool = [c for c in candidates
-                if c not in pos_set and not (node_roles[c[0]] == "source" and node_roles[c[1]] == "sink")]
+        pool = [c for c in candidates if c not in pos_set and c not in excl
+                and not (node_roles[c[0]] == "source" and node_roles[c[1]] == "sink")]
         k = min(len(pool), int(round(n_neg * hard_frac)))
         neg.update(rng.sample(pool, k))
     guard = 0
@@ -125,6 +132,8 @@ def build_seed_pairs(node_roles, reachable, neg_per_pos: int = 5, max_pos: int =
             continue
         if node_roles[i] == "source" and node_roles[j] == "sink" and reachable(i, j):
             continue  # đó là positive, bỏ
+        if (i, j) in pos_set or (i, j) in excl:
+            continue
         neg.add((i, j))
 
     def to_t(pairs):

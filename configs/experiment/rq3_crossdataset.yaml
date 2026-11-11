@@ -6,8 +6,6 @@ report:
   metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
   base_rate_precision: [0.10, 0.01, 0.001]   # RQF-07
   write_numbers_tex: paper/numbers.tex
-# TODO(Bước 11): bật khi 05_make_splits.py ghi MWF với split=holdout.
-# Thiếu khoá này, harness đánh giá trên split=test — tức TRÙNG RQ1.
-# eval_sets:
-#   test: {split: test}
-#   mwf:  {split: holdout}
+eval_sets:
+  test: {split: test}
+  holdout_ood: {split: holdout}

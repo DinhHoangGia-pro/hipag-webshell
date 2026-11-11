@@ -114,7 +114,7 @@ def _fmt_value(metric: str, mean: float, sd: float, digits: int = 2) -> str:
     if mean is None or math.isnan(mean):
         return r"n/a"
     scale = 1.0 if metric in _NON_PERCENT else 100.0
-    d = 3 if metric == "mcc" else digits
+    d = 0 if metric in {"n", "n_pos"} else (3 if metric == "mcc" else digits)
     m = f"{mean * scale:.{d}f}"
     if sd is None or math.isnan(sd):
         return m
@@ -124,7 +124,8 @@ def _fmt_value(metric: str, mean: float, sd: float, digits: int = 2) -> str:
 _MACRO_RE = re.compile(r"^\\(?:newcommand|renewcommand|providecommand)\{\\([A-Za-z]+)\}")
 
 
-def write_numbers_tex(agg: dict, path: str, prefix: str = "HiPaG", metrics=None, n_seeds: int | None = None):
+def write_numbers_tex(agg: dict, path: str, prefix: str = "HiPaG", metrics=None, n_seeds: int | None = None,
+                      metric_name_aliases: dict[str, str] | None = None):
     r"""Ghi macro \newcommand để paper \input (tránh gõ tay số -> chống mâu thuẫn P1 vs P2).
 
     agg    : {metric: (mean, sd)} (từ utils.metrics.aggregate_seeds), tỉ lệ ∈[0,1] in ra dạng %.
@@ -134,14 +135,15 @@ def write_numbers_tex(agg: dict, path: str, prefix: str = "HiPaG", metrics=None,
     """
     path = Path(path)
     lines = path.read_text().splitlines() if path.exists() else [
-        "% Macro số liệu — eval.py ghi vào đây; paper \\input{numbers.tex}.",
-        "% KHÔNG sửa tay: chạy lại scripts/run_experiment.py để cập nhật.",
+        "% Result macros -- written by eval.py (write_numbers_tex); main.tex does \\input{numbers.tex}.",
+        "% Do not edit by hand: re-run scripts/run_experiment.py to update.",
     ]
     keys = list(agg) if metrics is None else [m for m in metrics if m in agg]
     new: dict[str, str] = {}
     for k in keys:
         mean, sd = agg[k]
-        name = tex_macro_name(prefix, k)
+        aliases = metric_name_aliases or {}
+        name = prefix + aliases[k] if k in aliases else tex_macro_name(prefix, k)
         note = f"  % {prefix}:{k}" + (f" (n_seeds={n_seeds})" if n_seeds else "")
         new[name] = f"\\newcommand{{\\{name}}}{{{_fmt_value(k, mean, sd)}}}{note}"
     kept, done = [], set()

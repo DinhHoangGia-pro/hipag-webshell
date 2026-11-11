@@ -6,3 +6,7 @@ report:
   metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
   base_rate_precision: [0.10, 0.01, 0.001]   # RQF-07
   write_numbers_tex: paper/numbers.tex
+eval_sets:
+  test: {split: test}
+  char_matched_c0560: {csv: experiments/dataset/char_matched_char_c0.560.csv}
+  source_sink_c: {csv: experiments/dataset/slice_source_sink_c.csv}

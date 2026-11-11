@@ -1,0 +1,70 @@
+{
+  "n_raw": 16215,
+  "drop_reason": {
+    "exact_dup": 6025,
+    "trivial": 18
+  },
+  "n_keep": 10172,
+  "n_clusters": 9043,
+  "n_near_dup_pairs": 4867,
+  "cluster_size": {
+    "max": 62,
+    "mean": 1.1248479486895941,
+    "n_singleton": 8581
+  },
+  "n_mixed_label_clusters": 0,
+  "keep_by_source_label": {
+    "adminer/0": 108,
+    "c01dsnap/1": 573,
+    "c01dsnap_benign/0": 1978,
+    "carbon_lang/0": 149,
+    "country_list/0": 40,
+    "cycle183/1": 1726,
+    "dokuwiki/0": 431,
+    "drupal/0": 150,
+    "e107/0": 691,
+    "elfinder/0": 15,
+    "fluxbb/0": 48,
+    "johntroony/1": 89,
+    "kcfinder/0": 25,
+    "kint/0": 54,
+    "laravel/0": 150,
+    "libphonenumber_data/0": 200,
+    "mantisbt/0": 278,
+    "mpdf_data/0": 23,
+    "mybb/0": 227,
+    "oscommerce2/0": 193,
+    "phpmailer_lang/0": 1,
+    "phpsysinfo/0": 62,
+    "phpvirtualbox/0": 10,
+    "piwigo/0": 292,
+    "pluck/0": 97,
+    "polyfill_idn/0": 5,
+    "polyfill_normalizer/0": 3,
+    "serendipity/0": 618,
+    "smarty/0": 66,
+    "symfony_di/0": 150,
+    "tennc/1": 366,
+    "textpattern/0": 111,
+    "tinyfilemanager/0": 1,
+    "tracy_templates/0": 11,
+    "vesta/0": 150,
+    "wordpress/0": 399,
+    "zencart/0": 682
+  },
+  "params": {
+    "normalize": {
+      "strip_comments": true,
+      "strip_whitespace": true,
+      "lowercase_tokens": false
+    },
+    "near_dup": {
+      "method": "minhash",
+      "threshold": 0.85,
+      "shingle": 5,
+      "num_perm": 128,
+      "seed": 1
+    },
+    "min_tokens": 3
+  }
+}

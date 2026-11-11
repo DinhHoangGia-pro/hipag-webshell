@@ -1,0 +1,16 @@
+# RQ4 — ablation ma trận dữ liệu không giải vỏ tĩnh (no_deobf).
+inherit: configs/model/hipag_base.yaml
+splits: experiments/dataset/splits.csv
+data:
+  features_dir: data/features_small_nodeobf
+seeds: [0, 1, 2, 3, 4]
+report:
+  metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
+  base_rate_precision: [0.10, 0.01, 0.001]
+  write_numbers_tex: paper/numbers.tex
+ablation:
+  - full
+  - rule_e_sem
+  - no_e_sem
+eval_sets:
+  test: {split: test, where: {}}

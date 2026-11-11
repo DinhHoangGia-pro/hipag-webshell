@@ -36,7 +36,9 @@ def test_rule_edges_subset_of_candidates_when_max_cand_binds():
     assert b.cand_capped.float().mean() > 0.5                    # đa số đồ thị bị cắt
     rule, cand, seed = pairs(HiPaG.rule_edges(b)), pairs(b[CAND].edge_index), pairs(b[SEM_POS].edge_index)
     assert rule <= cand and rule <= seed
-    assert len(rule) < len(seed)                                 # cap thật sự loại bớt cạnh luật
+    # Trước cap thông minh: cap random cắt mất cạnh luật (len(rule) < len(seed)). Từ cap thông minh (cặp có kiểu
+    # source->sink được giữ trước), cap KHÔNG cắt cạnh luật khi số cặp có kiểu ≤ cap — đúng mục tiêu [3].
+    assert rule == seed and int(b.n_typed_cut.sum()) == 0
 
 
 def test_rule_edges_equal_seed_reachable_when_not_binding():
@@ -60,10 +62,12 @@ def test_cand_capped_frac_logged():
 
 def test_direct_source_sink_flag():
     idx = NODE_FEAT_DIM - N_NUMERIC - 1
-    v = lambda toks: node_vector({"kind": "Eval", "text": " ".join(toks), "tokens": toks})[idx]  # noqa: E731
-    assert v(["eval", "$_POST", "'c'"]) == 1.0
-    assert v(["eval", "$x"]) == 0.0 and v(["$x", "=", "$_GET"]) == 0.0
-    assert v(["system", "base64_decode", "$_COOKIE"]) == 1.0
+    # Token + call node đúng định dạng dump_ast.php (luật call node: sink chỉ khi là call/construct thật)
+    v = lambda toks, **n: node_vector({"kind": "Eval", "text": " ".join(toks), "tokens": toks, **n})[idx]  # noqa: E731
+    assert v(["eval", "$_POST", "c"], constructs=["eval"]) == 1.0
+    assert v(["eval", "$x"], constructs=["eval"]) == 0.0 and v(["$x", "=", "$_GET"]) == 0.0
+    assert v(["system", "(", "base64_decode", "(", "$_COOKIE"], calls=["system", "base64_decode"]) == 1.0
+    assert v(["$f", "=", "system", "$_COOKIE"]) == 0.0              # 'system' là literal -> không phải sink
 
 
 def _harness():

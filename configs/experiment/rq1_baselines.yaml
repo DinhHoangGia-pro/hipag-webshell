@@ -1,0 +1,27 @@
+# RQ1/RQ3 baselines evaluated on the fixed cluster-disjoint split.
+splits: experiments/dataset/splits.csv
+features_dir: data/features_small
+manifest: experiments/dataset/manifest.csv
+graph_stats: experiments/dataset/graph_stats.csv
+seeds: [0, 1, 2, 3, 4]
+eval_splits: [test, holdout]
+report:
+  metrics: [f1_macro, accuracy, precision, recall, mcc, pr_auc, fpr_at_tpr95]
+  base_rate_precision: [0.10, 0.01, 0.001]
+  write_numbers_tex: paper/numbers.tex
+baselines:
+  random_forest_estimators: 300
+  neural:
+    epochs: 100
+    patience: 15
+    batch_size: 32
+    lr: 0.0002
+    weight_decay: 0.0001
+  sequence:
+    max_tokens: 512
+    embedding_dim: 64
+    hidden_dim: 96
+  flat_gatv2:
+    hidden_dim: 64
+    heads: 2
+    layers: 2

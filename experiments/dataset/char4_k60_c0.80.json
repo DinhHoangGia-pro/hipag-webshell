@@ -1,0 +1,124 @@
+{
+  "min_stmt": 3,
+  "caliper": 0.8,
+  "n_webshell_structured_pool": 1918,
+  "n_benign_pool": 5440,
+  "n_pairs": 965,
+  "subset_size": 1930,
+  "match_dist": {
+    "mean": 0.2035,
+    "p90": 0.5124
+  },
+  "shallow_auc_subset": {
+    "mean": 0.9834,
+    "sd": 0.0006
+  },
+  "graphmeta_auc_subset": {
+    "mean": 0.9093,
+    "sd": 0.0034
+  },
+  "gate_pass": false,
+  "char_dist_webshell": {
+    "entropy": [
+      5.219,
+      0.474
+    ],
+    "frac_digit": [
+      0.041,
+      0.057
+    ],
+    "log_size": [
+      8.045,
+      2.138
+    ],
+    "log_b64_blobs": [
+      0.049,
+      0.194
+    ]
+  },
+  "char_dist_benign": {
+    "entropy": [
+      5.209,
+      0.459
+    ],
+    "frac_digit": [
+      0.036,
+      0.058
+    ],
+    "log_size": [
+      8.022,
+      2.08
+    ],
+    "log_b64_blobs": [
+      0.045,
+      0.177
+    ]
+  },
+  "char_dist_full_webshell": {
+    "entropy": [
+      5.444,
+      0.591
+    ],
+    "frac_digit": [
+      0.072,
+      0.088
+    ],
+    "log_size": [
+      9.4,
+      2.354
+    ],
+    "log_b64_blobs": [
+      0.758,
+      1.263
+    ]
+  },
+  "char_dist_full_benign": {
+    "entropy": [
+      5.038,
+      0.429
+    ],
+    "frac_digit": [
+      0.018,
+      0.047
+    ],
+    "log_size": [
+      7.715,
+      1.826
+    ],
+    "log_b64_blobs": [
+      0.022,
+      0.124
+    ]
+  },
+  "struct_dist_webshell": {
+    "n_stmt": [
+      153.628,
+      234.891
+    ],
+    "n_nodes": [
+      160.785,
+      246.104
+    ],
+    "n_edges": [
+      735.38,
+      1129.588
+    ]
+  },
+  "struct_dist_benign": {
+    "n_stmt": [
+      113.577,
+      195.574
+    ],
+    "n_nodes": [
+      121.537,
+      205.314
+    ],
+    "n_edges": [
+      553.591,
+      1084.697
+    ]
+  },
+  "clusters_in_subset": 1678,
+  "matching": "char4",
+  "subset_csv": "experiments/dataset/char4_k60_c0.80.csv"
+}

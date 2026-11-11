@@ -61,5 +61,12 @@ def test_write_numbers_tex_merges(tmp_path):
     assert "0.800 \\pm 0.020" in txt   # MCC không nhân 100
 
 
+def test_write_numbers_tex_formats_counts_as_integers(tmp_path):
+    p = tmp_path / "numbers.tex"
+    write_numbers_tex({"n": (15.0, math.nan)}, str(p), prefix="",
+                      metric_name_aliases={"n": "SampleCount"})
+    assert "\\newcommand{\\SampleCount}{15}" in p.read_text()
+
+
 def test_deep_merge():
     assert deep_merge({"a": {"x": 1, "y": 2}}, {"a": {"y": 3}}) == {"a": {"x": 1, "y": 3}}

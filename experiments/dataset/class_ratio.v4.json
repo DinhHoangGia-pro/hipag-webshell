@@ -1,0 +1,43 @@
+{
+  "stage": "raw (truoc dedup)",
+  "per_source": {
+    "wordpress": {
+      "available": 2084,
+      "sampled": 1500,
+      "hard": 179,
+      "role": "train_pool"
+    },
+    "laravel": {
+      "available": 3034,
+      "sampled": 1500,
+      "hard": 94,
+      "role": "train_pool"
+    },
+    "drupal": {
+      "available": 10414,
+      "sampled": 1500,
+      "hard": 76,
+      "role": "train_pool"
+    },
+    "c01dsnap_benign": {
+      "available": 1998,
+      "sampled": 1998,
+      "hard": 191,
+      "role": "holdout_cross_dataset"
+    },
+    "symfony_di": {
+      "available": 786,
+      "sampled": 786,
+      "hard": 786,
+      "hard_source": true
+    }
+  },
+  "n_webshell": 8717,
+  "n_benign": 7284,
+  "benign_per_webshell": 0.836,
+  "procedure": {
+    "per_source_max": 1500,
+    "seed": 42
+  },
+  "hard_regex": "(?<![>:$\\w\\\\])(eval|assert|system|exec|shell_exec|passthru|popen|proc_open|create_function|call_user_func|call_user_func_array|preg_replace|base64_decode|gzinflate|gzuncompress|str_rot13)\\s*\\(|(?<![>:$\\w])(include|require)(_once)?\\s*\\(?\\s*\\$"
+}

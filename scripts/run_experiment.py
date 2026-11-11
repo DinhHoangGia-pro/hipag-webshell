@@ -93,8 +93,13 @@ def build_data(cfg: dict, synthetic: bool):
     mk = lambda split, where=None: WebshellGraphDataset(  # noqa: E731
         str(splits), str(feats), split=split, where=where, max_bytes=int(dcfg.get("max_bytes", 10 * 1024 * 1024)))
     train_ds, val_ds = mk("train"), mk("val")
-    tests = {name: mk(spec.get("split", "test"), spec.get("where"))
-             for name, spec in cfg.get("eval_sets", {"test": {"split": "test"}}).items()}
+    tests = {}
+    for name, spec in cfg.get("eval_sets", {"test": {"split": "test"}}).items():
+        if spec.get("csv"):
+            csv_path = ROOT / spec["csv"]
+            tests[name] = WebshellGraphDataset(str(csv_path), str(feats), max_bytes=int(dcfg.get("max_bytes", 10 * 1024 * 1024)))
+        else:
+            tests[name] = mk(spec.get("split", "test"), spec.get("where"))
     for name, ds in [("train", train_ds), ("val", val_ds), *tests.items()]:
         print(f"  {name}: {len(ds)} mẫu (bỏ {len(ds.skipped)})")
         if len(ds) == 0:
@@ -143,6 +148,13 @@ def summary_md(summary: dict, keys: list[str], n_seeds: int, synthetic: bool) ->
                      if k in agg else "–" for k in keys]
             lines.append(f"| {variant} | " + " | ".join(cells) + " |")
     return "\n".join(lines) + "\n"
+
+
+def result_macro_prefix(rq: str, variant: str, set_name: str) -> str:
+    """Map the primary RQ1 result to the stable macro names used by main.tex."""
+    if rq == "rq1" and variant == "full" and set_name == "test":
+        return "HiPaG"
+    return tex_macro_name(rq, variant, set_name)
 
 
 def main(args):
@@ -234,8 +246,14 @@ def main(args):
     written = []
     for variant, by_set in summary.items():
         for set_name, agg in by_set.items():
-            written += write_numbers_tex(agg, str(ROOT / tex), prefix=tex_macro_name(rq, variant, set_name),
-                                         metrics=keys, n_seeds=len(seeds))
+            prefix = result_macro_prefix(rq, variant, set_name)
+            aliases = {
+                "f1_macro": "Fone",
+                "pr_auc": "PRAUC",
+                "fpr_at_tpr95": "FPR",
+            } if rq == "rq1" and prefix == "HiPaG" else None
+            written += write_numbers_tex(agg, str(ROOT / tex), prefix=prefix,
+                                         metrics=keys, n_seeds=len(seeds), metric_name_aliases=aliases)
     print(f"Đã ghi {len(written)} macro vào {tex} (vd \\{written[0]})")
     return summary
 

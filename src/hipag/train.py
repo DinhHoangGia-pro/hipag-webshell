@@ -111,7 +111,10 @@ def train_one_seed(cfg: dict, seed: int, train_ds, val_ds, test_sets: dict, devi
             best_mode = ck.get("best_mode", model.sem_mode)
             if model.taint is not None and ck.get("tau") is not None:
                 model.taint.tau = ck["tau"]
-            torch.set_rng_state(ck["rng_cpu"])
+            rng_cpu = ck["rng_cpu"].detach().cpu()
+            if rng_cpu.dtype != torch.uint8:
+                rng_cpu = rng_cpu.to(torch.uint8)
+            torch.set_rng_state(rng_cpu)
             log(f"[seed {seed}] resume từ epoch {start_epoch}")
 
     for epoch in range(start_epoch, int(tc["epochs"])):

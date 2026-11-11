@@ -1,11 +1,23 @@
 # Ma trận obfuscation held-out (RQ2/K2): thao-tác-hoá mức obfuscation thành biến có thang đo.
-# KHÔNG train trên tập này — chỉ đo kháng obfuscation.
+# KHÔNG train trên tập này — chỉ đo kháng obfuscation. Biến đổi: tools/php/obfuscate.php (mức token).
+# kind: structure = GIỮ-CẤU-TRÚC (đồ thị gần như bất biến -> shallow nên tụt, graphmeta nên giữ);
+#       packaging = ĐÓNG-GÓI-PAYLOAD (mã thật nằm trong chuỗi eval/decode -> boundary trung thực, mọi bộ nên tụt).
+# L1 cũ = comment_insert nay VÔ DỤNG (chuẩn hoá canon_lib.php nuốt comment) -> thay bằng rename+deadcode.
 levels:                      # mỗi level = một phép biến đổi giữ ngữ nghĩa
-  - {id: L0, name: none}
-  - {id: L1, name: comment_insert}
-  - {id: L2, name: base64_wrap}
-  - {id: L3, name: gzinflate_wrap}
-  - {id: L4, name: var_function}
-  - {id: L5, name: multi_layer}   # L2∘L4 lồng nhau
-source_webshells: experiments/dataset/splits.csv   # lấy từ test, biến đổi
-out_dir: data/obfuscation_matrix
+  - {id: L0, name: none,            kind: structure}
+  - {id: L1, name: rename_deadcode, kind: structure}   # đổi tên biến + chèn code chết (sống sót chuẩn hoá)
+  - {id: L2, name: base64_wrap,     kind: packaging}
+  - {id: L3, name: gzinflate_wrap,  kind: packaging}
+  - {id: L4, name: var_function,    kind: structure}    # foo( -> ('fo'.'o')( : đổi lời gọi, giữ CFG/DFG
+  - {id: L5, name: multi_layer,     kind: packaging}    # L2∘L4 lồng nhau
+source_webshells: experiments/dataset/splits.csv   # lấy từ split=test, biến đổi
+source_split: test
+# Chốt PHIÊN DATA 2026-11-07 (bản 2): biến đổi CẢ HAI lớp test (webshell + benign) ở mọi level, để AUC per-level đo
+# đúng lối tắt "có vỏ eval(base64) = webshell". Benign bị đóng gói vẫn là benign (packer/encoder hợp lệ).
+labels: [0, 1]
+manifest: experiments/dataset/manifest.csv          # đường dẫn PHP gốc
+out_dir: data/obfuscation_matrix                    # PHP đã biến đổi: <out_dir>/<level>/<2hex>/<sample_id>.php
+out_manifest: experiments/dataset/obfuscation_manifest.csv
+# Loại một hàng obf CHỈ khi phép biến đổi làm hỏng file vốn lint sạch (php -l gốc OK, bản biến đổi FAIL).
+graphs: configs/dataset/build_graphs.yaml           # dùng cùng tham số dựng đồ thị
+workers: 8

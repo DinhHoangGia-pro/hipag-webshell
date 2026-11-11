@@ -1,10 +1,21 @@
-# Khử trùng mức nguồn (RQF-05): chuẩn hoá bỏ comment/whitespace rồi hash; gom near-dup cluster.
+# Khử trùng mức nguồn (RQF-05): chuẩn hoá bỏ comment/whitespace (token_get_all, tools/php/normalize.php)
+# rồi hash; gom near-dup cluster bằng MinHash-LSH trên shingle token.
+manifest_raw: experiments/dataset/manifest_raw.csv
 normalize:
   strip_comments: true
   strip_whitespace: true
   lowercase_tokens: false
 hash: sha1
+min_tokens: 3              # < 3 token sau chuẩn hoá (file rỗng/chỉ thẻ mở) -> loại, ghi lý do
 near_dup:
-  method: minhash          # hoặc token-shingle jaccard
-  threshold: 0.85
+  method: minhash
+  threshold: 0.85          # Jaccard ước lượng trên shingle
+  shingle: 5               # n-gram token
+  num_perm: 128
+  seed: 1
+# Cùng norm_sha1 nhưng KHÁC nhãn -> loại cả nhóm (nhãn mâu thuẫn). Cụm near-dup lẫn nhãn được GIỮ (ghi cờ).
+# Đại diện nhóm trùng chính xác: ưu tiên role=train_pool, rồi thứ tự nguồn trong collect.yaml, rồi path.
+source_order: [tennc, johntroony, cycle183, wordpress, laravel, drupal, symfony_di, c01dsnap, c01dsnap_benign]
+workers: 8
 out_clusters: experiments/dataset/clusters.csv
+out_manifest: experiments/dataset/manifest.csv

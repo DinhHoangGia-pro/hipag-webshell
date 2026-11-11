@@ -1,8 +1,13 @@
+manifest: experiments/dataset/manifest.csv
+model_config: configs/model/hipag_base.yaml   # khối `esem:` (esem_hop, interproc_depth, max_cand, cross_function)
 parser:
   php_bin: php
-  phpparser_entry: tools/php/dump_ast.php   # nikic/PHP-Parser -> JSON AST
-graph:
-  edges: [E_seq, E_skip, E_cfg, E_dfg, E_sem, E_call, E_include]
+  phpparser_entry: tools/php/dump_ast.php   # nikic/PHP-Parser -> IR thô mức statement (+ CFG cấu trúc)
+  timeout_s: 60                             # mỗi file
+  deobf: true    # UPG-02 giải vỏ TĨNH (fold decoder trên literal + const-prop hẹp). false = ablation no_deobf
+                 # -> dùng configs/dataset/build_graphs_nodeobf.yaml (thư mục đồ thị RIÊNG; không trộn hai chế độ)
+graph:                        # trộn vào hierarchical_graph.DEFAULT_GRAPH_CFG
+  edges: [E_seq, E_skip, E_cfg, E_dfg, E_sem, E_call, E_include]   # E_sem KHÔNG lưu (model sinh lúc forward)
   skip_window_delta: 2        # E_skip δ
   max_stmt_per_block: 200
   max_func_per_file: 50       # shrink (giống H-GNN features_small)
@@ -10,5 +15,10 @@ node_features:
   use_entropy: true
   use_sink_source_flags: true
   positional: true
-out_dir: data/features
+# Chỉ ghi features_small (đồ thị đã cắt theo max_*). Không ghi bản "full" chưa cắt.
+# Ổ data là NTFS (ntfs-3g): >~10k file/thư mục gây ENOSPC -> chia thư mục con theo 2 ký tự hex của sample_id.
 out_small_dir: data/features_small
+workers: 8
+chunk: 32
+out_stats: experiments/dataset/graph_stats.csv
+out_parse_fail: experiments/dataset/parse_fail.csv

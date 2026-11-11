@@ -1,0 +1,52 @@
+[02] quét pool benign (trong RAM)...
+  pool tinyfilemanager       1 php  (prasathmani/tinyfilemanager@41491439a6)
+  pool adminer             187 php  (vrana/adminer@38cdecba2a)
+  pool elfinder             33 php  (Studio-42/elFinder@6f1da224a5)
+  pool kcfinder             70 php  (sunhater/kcfinder@b645d2a81e)
+  pool vesta               477 php  (serghey-rodin/vesta@765509cae2)
+  pool phpsysinfo           99 php  (phpsysinfo/phpsysinfo@b53202030d)
+  pool pihole_adminlte       0 php  (pi-hole/AdminLTE@fb699c4e3f)
+  pool phpvirtualbox        19 php  (phpvirtualbox/phpvirtualbox@e5e4cc7791)
+  pool mybb                516 php  (mybb/mybb@f621eef39c)
+  pool textpattern         313 php  (textpattern/textpattern@0105c6df3d)
+  pool e107               1914 php  (e107inc/e107@f0dc448d65)
+  pool smarty              168 php  (smarty-php/smarty@ed16847b9f)
+  pool dokuwiki           1252 php  (dokuwiki/dokuwiki@ab13496905)
+  pool fluxbb               98 php  (fluxbb/fluxbb@5a2f95a34e)
+  pool zencart            1553 php  (zencart/zencart@031b60dc47)
+  pool piwigo              952 php  (Piwigo/Piwigo@7547b1bdb0)
+  pool oscommerce2         435 php  (osCommerce/oscommerce2@de0e97d15d)
+  pool pluck               295 php  (pluck-cms/pluck@c61a801cf9)
+  pool mantisbt            537 php  (MantisBT/mantisbt@94a7edb905)
+  pool serendipity        1516 php  (s9y/Serendipity@15212b5f27)
+  pool c01dsnap_white    10140 php  (White.zip trừ 2000 file holdout)
+  pool wordpress          2084 php  (đĩa, cap 400)
+  pool laravel            3034 php  (đĩa, cap 150)
+  pool drupal            10414 php  (đĩa, cap 150)
+  pool symfony_di          786 php  (đĩa, cap 150)
+[02] pool 36893 -> hợp lệ 35505 -> chọn 5500; loại {'dup_in_pool': 1387, 'backdoor_pattern': 1}
+  adminer          {'available': 187, 'selected': 66, 'hard': 27, 'axis': 'behavior'}
+  c01dsnap_white   {'available': 10058, 'selected': 1955, 'hard': 401, 'axis': 'style'}
+  dokuwiki         {'available': 1247, 'selected': 235, 'hard': 24, 'axis': 'style'}
+  drupal           {'available': 10405, 'selected': 150, 'hard': 7, 'axis': 'framework'}
+  e107             {'available': 1911, 'selected': 626, 'hard': 149, 'axis': 'behavior'}
+  elfinder         {'available': 33, 'selected': 11, 'hard': 6, 'axis': 'behavior'}
+  fluxbb           {'available': 98, 'selected': 35, 'hard': 11, 'axis': 'style'}
+  kcfinder         {'available': 68, 'selected': 14, 'hard': 2, 'axis': 'behavior'}
+  laravel          {'available': 3032, 'selected': 150, 'hard': 21, 'axis': 'framework'}
+  mantisbt         {'available': 537, 'selected': 173, 'hard': 35, 'axis': 'style'}
+  mybb             {'available': 516, 'selected': 142, 'hard': 38, 'axis': 'behavior'}
+  oscommerce2      {'available': 432, 'selected': 111, 'hard': 39, 'axis': 'style'}
+  phpsysinfo       {'available': 99, 'selected': 43, 'hard': 23, 'axis': 'behavior'}
+  phpvirtualbox    {'available': 19, 'selected': 5, 'hard': 4, 'axis': 'behavior'}
+  piwigo           {'available': 710, 'selected': 178, 'hard': 40, 'axis': 'style'}
+  pluck            {'available': 250, 'selected': 57, 'hard': 4, 'axis': 'style'}
+  serendipity      {'available': 1159, 'selected': 423, 'hard': 39, 'axis': 'style'}
+  smarty           {'available': 168, 'selected': 31, 'hard': 11, 'axis': 'behavior'}
+  symfony_di       {'available': 758, 'selected': 130, 'hard': 10, 'axis': 'framework'}
+  textpattern      {'available': 312, 'selected': 61, 'hard': 19, 'axis': 'behavior'}
+  tinyfilemanager  {'available': 1, 'selected': 1, 'hard': 1, 'axis': 'behavior'}
+  vesta            {'available': 212, 'selected': 92, 'hard': 74, 'axis': 'behavior'}
+  wordpress        {'available': 1884, 'selected': 400, 'hard': 90, 'axis': 'framework'}
+  zencart          {'available': 1409, 'selected': 411, 'hard': 132, 'axis': 'style'}
+-> benign train_pool=5500 (hard 21.9%, axis {'framework': 830, 'behavior': 1092, 'style': 3578}, variants {'minified': 440, 'packed': 165}); holdout benign=1998; webshell=8717; backdoor loại=1

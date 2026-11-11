@@ -1,0 +1,59 @@
+{
+  "n": 9700,
+  "cluster_disjoint": true,
+  "by_split_label": {
+    "holdout/0": 1909,
+    "holdout/1": 339,
+    "test/0": 791,
+    "test/1": 328,
+    "train/0": 3689,
+    "train/1": 1525,
+    "val/0": 791,
+    "val/1": 328
+  },
+  "by_split_source": {
+    "holdout/c01dsnap": 339,
+    "holdout/c01dsnap_benign": 1909,
+    "test/cycle183": 265,
+    "test/drupal": 225,
+    "test/johntroony": 11,
+    "test/laravel": 225,
+    "test/symfony_di": 118,
+    "test/tennc": 52,
+    "test/wordpress": 223,
+    "train/cycle183": 1200,
+    "train/drupal": 1049,
+    "train/johntroony": 69,
+    "train/laravel": 1050,
+    "train/symfony_di": 549,
+    "train/tennc": 256,
+    "train/wordpress": 1041,
+    "val/cycle183": 261,
+    "val/drupal": 225,
+    "val/johntroony": 9,
+    "val/laravel": 225,
+    "val/symfony_di": 118,
+    "val/tennc": 58,
+    "val/wordpress": 223
+  },
+  "hard_benign_by_split": {
+    "holdout": 179,
+    "test": 169,
+    "train": 795,
+    "val": 170
+  },
+  "dropped": {
+    "holdout_overlap_train/label1": 234,
+    "holdout_overlap_train/label0": 30
+  },
+  "ratio_target": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "seed": 42,
+  "train_pos_frac": 0.2925,
+  "val_pos_frac": 0.2931,
+  "test_pos_frac": 0.2931,
+  "holdout_pos_frac": 0.1508
+}

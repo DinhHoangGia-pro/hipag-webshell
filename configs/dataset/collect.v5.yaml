@@ -1,0 +1,81 @@
+# Thu thập webshell PHP + benign (Bước 8–9). Mọi nguồn tải về data/raw/ (KHÔNG lên git); commit/sha256 ghi ở
+# experiments/dataset/provenance.json (Bước 12).
+#
+# Thay đổi so với kế hoạch ban đầu (2026-11-07, PHIÊN DATA):
+#  - MWF (csuvis/MWF-Dataset, 2023) KHÔNG công bố mã nguồn (chỉ metadata lời gọi hàm động) -> không dựng được
+#    đồ thị chương trình. Thay vai trò holdout cross-dataset bằng c01dsnap/Webshell (Hugging Face, 2024).
+#    Mẫu holdout trùng/gần trùng (cùng cụm) với bất kỳ nguồn train nào bị LOẠI khỏi holdout (05_make_splits.py).
+#  - WebSHArk 1.0 (2015) chỉ cấp qua email tác giả -> chưa có; giữ dòng ở dạng chú thích.
+#  - "cycle183" = github.com/Cyc1e183/PHP-Webshell-Dataset (2,917 file; gồm cả tennc + JohnTroony -> dedup chéo nguồn).
+webshell_sources:
+  - {name: tennc,      year: 2022, path: data/raw/tennc,      url: "https://github.com/tennc/webshell"}
+  - {name: johntroony, year: 2020, path: data/raw/johntroony, url: "https://github.com/JohnTroony/php-webshells"}
+  - {name: cycle183,   year: 2020, path: data/raw/cycle183,   url: "https://github.com/Cyc1e183/PHP-Webshell-Dataset (PHP-Webshell.zip, LFS)"}
+  - {name: c01dsnap,   year: 2024, path: data/raw/c01dsnap,   url: "https://huggingface.co/datasets/c01dsnap/Webshell (Black.zip + webshell.zip)",
+     role: holdout_cross_dataset}   # never trained on (RQF-05/K3), thay MWF
+  # - {name: webshark, year: 2015, path: data/raw/webshark}   # chờ tác giả cấp (JIPS 2015, 10.3745/JIPS.03.0026)
+  # - {name: mwf,      year: 2023, path: data/raw/mwf}        # không có mã nguồn công khai
+
+php_filter:
+  extensions: [php, php3, php4, php5, php7, phtml, pht, inc]
+  require_open_tag: true        # nội dung phải có "<?" (loại file HTML/ASP/rác đổi đuôi .php)
+  min_bytes: 16
+  max_bytes: 5000000            # > 5MB: loại, ghi vào excluded_raw.csv
+  skip_dirs: [.git, vendor, node_modules]
+
+benign_sources:
+  - {name: wordpress, path: data/raw/benign/wordpress, url: "https://github.com/WordPress/WordPress"}
+  - {name: laravel,   path: data/raw/benign/laravel,   url: "https://github.com/laravel/framework"}
+  - {name: drupal,    path: data/raw/benign/drupal,    url: "https://github.com/drupal/drupal"}
+  # Benign của holdout (RQ3 cần cả 2 lớp để đo FPR ngoài phân phối). White.zip có 12,167 file PHP phẳng; ổ NTFS
+  # (ntfs-3g) báo ENOSPC khi giải nén >~10k file/thư mục -> trích mẫu ngẫu nhiên 2,000 file
+  # (random.Random("42:c01dsnap_benign").sample trên danh sách entry White/PHP/*.php đã sort), chia thư mục 500/thư mục.
+  - {name: c01dsnap_benign, path: data/raw/c01dsnap_benign, max: 2000, role: holdout_cross_dataset,
+     url: "https://huggingface.co/datasets/c01dsnap/Webshell (White.zip, mẫu 2000/12167)"}
+hard_benign:   # framework hợp lệ dùng call_user_func/eval-like — subset "khó" để đo FP; lấy TOÀN BỘ
+  - {name: symfony_di, path: data/raw/benign/hard/symfony_di, url: "https://github.com/symfony/dependency-injection"}
+
+# Thủ tục lấy mẫu benign (RQF-04): mỗi nguồn thường lấy ngẫu nhiên đều (không hoàn lại) tối đa per_source_max
+# file PHP; hard_benign lấy hết. Cờ hard=1 cho MỌI file benign có lời gọi sink/decoder (regex hard_regex) —
+# subset này dùng báo FPR riêng. Tỉ lệ lớp cuối cùng in ra + ghi experiments/dataset/class_ratio.json.
+benign_sampling:
+  per_source_max: 1500
+  seed: 42
+hard_regex: '(?<![>:$\w\\])(eval|assert|system|exec|shell_exec|passthru|popen|proc_open|create_function|call_user_func|call_user_func_array|preg_replace|base64_decode|gzinflate|gzuncompress|str_rot13)\s*\(|(?<![>:$\w])(include|require)(_once)?\s*\(?\s*\$'
+
+out_manifest: experiments/dataset/manifest_raw.csv
+out_excluded: experiments/dataset/excluded_raw.csv
+
+# ======================================================================================================================
+# BENIGN FOIL KHÓ (2026-11-07, sau probe v4 AUC shallow 1.000 = benign tách được bằng PHONG CÁCH).
+# Khi có khối này, 02_collect_benign.py dùng nó THAY cho benign_sources/hard_benign ở trên (giữ cho tái lập v4).
+# Hai trục: (1) phong cách khớp webshell (thủ tục/PHP5/không namespace/có ?>), (2) HÀNH VI khớp: benign dùng
+# hàm nguy hiểm hợp pháp (eval template, exec panel, upload/file manager, include động) + xử lý $_GET/$_POST.
+# Nguồn GitHub: tarball ghim commit (experiments/dataset/benign2_sources.tsv), CHỈ giải nén file được chọn.
+benign_pool:
+  sources_tsv: experiments/dataset/benign2_sources.tsv     # name, repo, commit, axis
+  dl_dir: data/dl/benign2
+  extract_dir: data/raw/benign2                             # <source>/<2hex>/<sha1(member)[:12]>_<basename>
+  white_zip: {name: c01dsnap_white, zip: data/dl/c01dsnap_Webshell_White.zip, prefix: White/PHP/, axis: style,
+              holdout_pick_seed: "42:c01dsnap_benign", holdout_n: 2000}   # loại đúng 2000 file đã nằm ở holdout
+  existing:        # nguồn v4 trên đĩa — vẫn có (server thật có framework) nhưng CAP thấp
+    - {name: wordpress,  path: data/raw/benign/wordpress,        axis: framework, cap: 400}
+    - {name: laravel,    path: data/raw/benign/laravel,          axis: framework, cap: 150}
+    - {name: drupal,     path: data/raw/benign/drupal,           axis: framework, cap: 150}
+    - {name: symfony_di, path: data/raw/benign/hard/symfony_di,  axis: framework, cap: 150}
+  holdout_existing: {name: c01dsnap_benign, path: data/raw/c01dsnap_benign}   # giữ nguyên vai trò holdout
+  per_source_cap: 700        # chống một nguồn áp đảo
+  white_cap: 2500
+  n_target: 5500             # tổng benign train_pool (~2.5x webshell train_pool)
+  # Ghép phân phối THÔ (log10 size x entropy) với webshell train_pool: w = (p_ws/p_pool)^power, bin thô,
+  # bin webshell trống -> w_floor (không loại hẳn). power<1 để KHÔNG match gắt.
+  bins: {log10_size_step: 0.5, entropy_step: 0.5}
+  density_power: 0.5
+  w_floor: 0.1
+  hard_boost: 2.0            # ưu tiên file dùng hàm nguy hiểm hợp pháp (trục hành vi)
+  # Chống label-proxy: một phần nhỏ benign được rút gọn (php -w) hoặc đóng gói eval(gzinflate(base64)) (packer hợp lệ)
+  minify_frac: 0.08
+  pack_frac: 0.03
+  seed: 42
+  # Loại khỏi benign (ghi experiments/dataset/benign_backdoor_review.csv để soát tay): mẫu backdoor kinh điển
+  backdoor_regex: '(?<![>:$\w])(eval|assert|system|exec|passthru|shell_exec|popen|proc_open|create_function)\s*\(\s*(@\s*)?((base64_decode|gzinflate|str_rot13|stripslashes|urldecode)\s*\(\s*)*\$_(GET|POST|REQUEST|COOKIE|SERVER)\b'

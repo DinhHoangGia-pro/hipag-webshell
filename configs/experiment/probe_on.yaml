@@ -1,0 +1,9 @@
+# Probe per-level, deobf=on (UPG-02 ablation). graphmeta/required lấy từ graph_stats nhánh on;
+# shallow đọc source thô (bất biến deobf) nên giống nhau cả hai nhánh.
+inherit: configs/experiment/rq1_detection.yaml
+probe:
+  graph_stats: [experiments/dataset/graph_stats.csv]
+  graph_log_obf: data/features_small/_build_log_obf.jsonl
+  obf_manifest: experiments/dataset/obfuscation_manifest.csv
+  out_json: experiments/dataset/metadata_probe_on.json
+  out_md: experiments/dataset/metadata_probe_on.md

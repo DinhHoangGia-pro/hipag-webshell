@@ -15,7 +15,8 @@ from hipag.model.taint_predictor import build_seed_pairs
 def test_taint_seeds():
     assert classify_token("$_GET") == "source" and classify_token("EVAL") == "sink"
     assert classify_token("base64_decode") == "decode" and classify_token("strlen") is None
-    assert primary_role(["eval", "$_POST"]) == "sink"     # quy ước sink > source
+    assert primary_role(["eval", "$_POST"], {"eval"}) == "sink"     # quy ước sink > source (eval là construct)
+    assert primary_role(["eval", "$_POST"]) == "source"             # luật call node: không có construct -> không sink
 
 
 def test_reachable_within_hops():

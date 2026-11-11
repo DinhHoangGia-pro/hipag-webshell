@@ -1,0 +1,72 @@
+[02] quét pool benign (trong RAM)...
+  pool tinyfilemanager       1 php  (prasathmani/tinyfilemanager@41491439a6)
+  pool adminer             187 php  (vrana/adminer@38cdecba2a)
+  pool elfinder             33 php  (Studio-42/elFinder@6f1da224a5)
+  pool kcfinder             70 php  (sunhater/kcfinder@b645d2a81e)
+  pool vesta               477 php  (serghey-rodin/vesta@765509cae2)
+  pool phpsysinfo           99 php  (phpsysinfo/phpsysinfo@b53202030d)
+  pool pihole_adminlte       0 php  (pi-hole/AdminLTE@fb699c4e3f)
+  pool phpvirtualbox        19 php  (phpvirtualbox/phpvirtualbox@e5e4cc7791)
+  pool mybb                516 php  (mybb/mybb@f621eef39c)
+  pool textpattern         313 php  (textpattern/textpattern@0105c6df3d)
+  pool e107               1914 php  (e107inc/e107@f0dc448d65)
+  pool smarty              168 php  (smarty-php/smarty@ed16847b9f)
+  pool dokuwiki           1252 php  (dokuwiki/dokuwiki@ab13496905)
+  pool fluxbb               98 php  (fluxbb/fluxbb@5a2f95a34e)
+  pool zencart            1553 php  (zencart/zencart@031b60dc47)
+  pool piwigo              952 php  (Piwigo/Piwigo@7547b1bdb0)
+  pool oscommerce2         435 php  (osCommerce/oscommerce2@de0e97d15d)
+  pool pluck               295 php  (pluck-cms/pluck@c61a801cf9)
+  pool mantisbt            537 php  (MantisBT/mantisbt@94a7edb905)
+  pool serendipity        1516 php  (s9y/Serendipity@15212b5f27)
+  pool tcpdf_fonts           0 php  (tecnickcom/TCPDF@5108fa5cb0)
+  pool fpdf_fonts            0 php  (Setasign/FPDF@051b70e4c5)
+  pool libphonenumber_data   1065 php  (giggsey/libphonenumber-for-php@75a801c3db)
+  pool polyfill_normalizer      6 php  (symfony/polyfill-intl-normalizer@ebd57ccc7e)
+  pool polyfill_mbstring      6 php  (symfony/polyfill-mbstring@122889ed24)
+  pool polyfill_idn          9 php  (symfony/polyfill-intl-idn@533d68cf99)
+  pool mpdf_data           194 php  (mpdf/mpdf@9928267eb9)
+  pool tracy_templates      26 php  (nette/tracy@d46e9e9725)
+  pool kint                125 php  (kint-php/kint@a052949267)
+  pool country_list        628 php  (umpirsky/country-list@bd490a163a)
+  pool carbon_lang         824 php  (briannesbitt/Carbon@dde1e12f75)
+  pool phpmailer_lang       57 php  (PHPMailer/PHPMailer@ddf8cfdeb9)
+  pool c01dsnap_white        0 php  (TẮT: c01dsnap chỉ dùng cho holdout)
+  pool wordpress          2084 php  (đĩa, cap 400)
+  pool laravel            3034 php  (đĩa, cap 150)
+  pool drupal            10414 php  (đĩa, cap 150)
+  pool symfony_di          786 php  (đĩa, cap 150)
+[02] pool 29693 -> hợp lệ 27779 -> chọn 5500; loại {'dup_in_pool': 1913, 'backdoor_pattern': 1}
+  adminer          {'available': 187, 'selected': 108, 'hard': 37, 'axis': 'behavior'}
+  carbon_lang      {'available': 629, 'selected': 150, 'hard': 1, 'axis': 'payload'}
+  country_list     {'available': 177, 'selected': 40, 'hard': 0, 'axis': 'payload'}
+  dokuwiki         {'available': 1247, 'selected': 431, 'hard': 43, 'axis': 'style'}
+  drupal           {'available': 10405, 'selected': 150, 'hard': 13, 'axis': 'framework'}
+  e107             {'available': 1911, 'selected': 700, 'hard': 162, 'axis': 'behavior'}
+  elfinder         {'available': 33, 'selected': 15, 'hard': 8, 'axis': 'behavior'}
+  fluxbb           {'available': 98, 'selected': 48, 'hard': 15, 'axis': 'style'}
+  kcfinder         {'available': 68, 'selected': 25, 'hard': 4, 'axis': 'behavior'}
+  kint             {'available': 125, 'selected': 54, 'hard': 1, 'axis': 'payload'}
+  laravel          {'available': 3034, 'selected': 150, 'hard': 16, 'axis': 'framework'}
+  libphonenumber_data {'available': 1065, 'selected': 200, 'hard': 0, 'axis': 'payload'}
+  mantisbt         {'available': 537, 'selected': 278, 'hard': 46, 'axis': 'style'}
+  mpdf_data        {'available': 72, 'selected': 23, 'hard': 0, 'axis': 'payload'}
+  mybb             {'available': 516, 'selected': 243, 'hard': 57, 'axis': 'behavior'}
+  oscommerce2      {'available': 432, 'selected': 193, 'hard': 61, 'axis': 'style'}
+  phpmailer_lang   {'available': 1, 'selected': 1, 'hard': 0, 'axis': 'payload'}
+  phpsysinfo       {'available': 99, 'selected': 62, 'hard': 31, 'axis': 'behavior'}
+  phpvirtualbox    {'available': 19, 'selected': 10, 'hard': 4, 'axis': 'behavior'}
+  piwigo           {'available': 710, 'selected': 293, 'hard': 50, 'axis': 'style'}
+  pluck            {'available': 250, 'selected': 98, 'hard': 7, 'axis': 'style'}
+  polyfill_idn     {'available': 9, 'selected': 5, 'hard': 0, 'axis': 'payload'}
+  polyfill_normalizer {'available': 6, 'selected': 3, 'hard': 0, 'axis': 'payload'}
+  serendipity      {'available': 1159, 'selected': 627, 'hard': 60, 'axis': 'style'}
+  smarty           {'available': 168, 'selected': 66, 'hard': 18, 'axis': 'behavior'}
+  symfony_di       {'available': 785, 'selected': 150, 'hard': 15, 'axis': 'framework'}
+  textpattern      {'available': 312, 'selected': 113, 'hard': 34, 'axis': 'behavior'}
+  tinyfilemanager  {'available': 1, 'selected': 1, 'hard': 1, 'axis': 'behavior'}
+  tracy_templates  {'available': 26, 'selected': 11, 'hard': 0, 'axis': 'payload'}
+  vesta            {'available': 212, 'selected': 152, 'hard': 123, 'axis': 'behavior'}
+  wordpress        {'available': 2075, 'selected': 400, 'hard': 90, 'axis': 'framework'}
+  zencart          {'available': 1409, 'selected': 700, 'hard': 201, 'axis': 'style'}
+-> benign train_pool=5500 (hard 20.0%, axis {'behavior': 1495, 'framework': 850, 'style': 2668, 'payload': 487}, variants {'minified': 440, 'packed': 165}); holdout benign=1998; webshell=8717; backdoor loại=1

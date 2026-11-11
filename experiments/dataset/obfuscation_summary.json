@@ -1,0 +1,42 @@
+{
+  "n_base": 1152,
+  "levels": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5"
+  ],
+  "n_rows_obf": 6912,
+  "by_level_label": {
+    "L0/0": 824,
+    "L0/1": 328,
+    "L1/0": 824,
+    "L1/1": 328,
+    "L2/0": 824,
+    "L2/1": 328,
+    "L3/0": 824,
+    "L3/1": 328,
+    "L4/0": 824,
+    "L4/1": 328,
+    "L5/0": 824,
+    "L5/1": 328
+  },
+  "dropped_broken_by_transform": {},
+  "lint_orig_fail": 44,
+  "parse_status_by_level": {
+    "L0/fallback_tokens": 7,
+    "L0/ok": 1134,
+    "L0/recovered": 11,
+    "L1/fallback_tokens": 7,
+    "L1/ok": 1134,
+    "L1/recovered": 11,
+    "L2/ok": 1152,
+    "L3/ok": 1152,
+    "L4/fallback_tokens": 7,
+    "L4/ok": 1134,
+    "L4/recovered": 11,
+    "L5/ok": 1152
+  }
+}

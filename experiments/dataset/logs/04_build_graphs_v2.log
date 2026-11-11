@@ -1,0 +1,18 @@
+[build] E_sem: esem_hop=12 interproc_depth=2 max_cand=4096 cross_function=True
+[build] tổng 9964; đã có 0; cần dựng 9964
+  [build] 25/312 chunk
+  [build] 50/312 chunk
+  [build] 75/312 chunk
+  [build] 100/312 chunk
+  [build] 125/312 chunk
+  [build] 150/312 chunk
+  [build] 175/312 chunk
+  [build] 200/312 chunk
+  [build] 225/312 chunk
+  [build] 250/312 chunk
+  [build] 275/312 chunk
+  [build] 300/312 chunk
+  [build] 312/312 chunk
+status x label: {('fallback_tokens', '0'): 1, ('fallback_tokens', '1'): 71, ('ok', '0'): 7208, ('ok', '1'): 2562, ('recovered', '0'): 1, ('recovered', '1'): 121}
+E_sem: bridge liên thủ tục 18701 cặp = arg->param CHÍNH XÁC 18685 + FALLBACK 16 (fallback = dump thiếu callargs/params, vd fallback_tokens); cap: 1372 đồ thị chạm cap, cặp source->sink bị cắt 0 (phải ~0)
+-> 9964 đồ thị trong data/features_small; parse không sạch: 194 (ghi experiments/dataset/parse_fail.csv)

@@ -1,0 +1,41 @@
+nguồn: 328 mẫu split=test x 6 level
+[obf] E_sem: esem_hop=12 interproc_depth=2 max_cand=4096 cross_function=True
+[obf] tổng 1968; đã có 954; cần dựng 1014
+  [obf] 25/32 chunk
+  [obf] 32/32 chunk
+{
+  "n_base": 328,
+  "levels": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5"
+  ],
+  "n_rows_obf": 1968,
+  "by_level_label": {
+    "L0/1": 328,
+    "L1/1": 328,
+    "L2/1": 328,
+    "L3/1": 328,
+    "L4/1": 328,
+    "L5/1": 328
+  },
+  "dropped_broken_by_transform": {},
+  "lint_orig_fail": 36,
+  "parse_status_by_level": {
+    "L0/fallback_tokens": 9,
+    "L0/ok": 311,
+    "L0/recovered": 8,
+    "L1/fallback_tokens": 9,
+    "L1/ok": 311,
+    "L1/recovered": 8,
+    "L2/ok": 328,
+    "L3/ok": 328,
+    "L4/fallback_tokens": 9,
+    "L4/ok": 311,
+    "L4/recovered": 8,
+    "L5/ok": 328
+  }
+}
