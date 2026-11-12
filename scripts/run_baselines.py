@@ -245,16 +245,29 @@ def fit_neural(kind, train_ds, val_ds, eval_sets, cfg, seed, device, out_dir):
     return result
 
 
-def source_features(cfg, split_rows):
+def canonical_source_bytes(cfg, split_rows):
+    """Return canonical source bytes used by the shallow probe, in split-row order."""
+    import base64
+
     manifest = {r["sample_id"]: r for r in read_csv(ROOT / cfg["manifest"])}
-    stats = {r["sample_id"]: r for r in read_csv(ROOT / cfg["graph_stats"])}
     paths = [ROOT / manifest[r["sample_id"]]["path"] for r in split_rows]
     canonical = canonicalize_batch(paths)
+    if len(canonical) != len(paths):
+        raise RuntimeError(f"Canonicalizer returned {len(canonical)} rows for {len(paths)} source files")
+
+    return [
+        base64.b64decode(encoded) if encoded else path.read_bytes()
+        for encoded, path in zip(canonical, paths)
+    ]
+
+
+def source_features(cfg, split_rows):
+    stats = {r["sample_id"]: r for r in read_csv(ROOT / cfg["graph_stats"])}
+    raws = canonical_source_bytes(cfg, split_rows)
     from scripts.metadata_probe import graphmeta_features, shallow_features
-    import base64
-    raw_bytes = [base64.b64decode(b64) if b64 else p.read_bytes() for b64, p in zip(canonical, paths)]
+
     return {
-        "shallow": np.asarray([shallow_features(b) for b in raw_bytes], dtype=np.float32),
+        "shallow": np.asarray([shallow_features(b) for b in raws], dtype=np.float32),
         "graphmeta": np.asarray([graphmeta_features(stats[r["sample_id"]]) for r in split_rows],
                                 dtype=np.float32),
     }

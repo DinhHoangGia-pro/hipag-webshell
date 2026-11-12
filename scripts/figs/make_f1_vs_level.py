@@ -129,7 +129,8 @@ def main() -> None:
     axis.set_xticks(x)
     axis.set_xticklabels(ORDER)
     axis.set_xlabel("Obfuscation level")
-    axis.set_ylabel("Macro-F1 (\\%)")
+    # matplotlib is not rendering through LaTeX here, so '%' must be literal.
+    axis.set_ylabel("Macro-F1 (%)")
     axis.set_ylim(0, 108)
     axis.set_yticks([0, 20, 40, 60, 80, 100])
     axis.set_xlim(-0.5, len(ORDER) - 0.5)

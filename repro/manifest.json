@@ -1,0 +1,684 @@
+{
+ "generated_utc": "2026-11-12T12:35:27+00:00",
+ "platform": {
+  "python": "3.12.16",
+  "python_impl": "CPython",
+  "os": "Ubuntu 26.04 LTS",
+  "kernel": "7.0.0-42-generic",
+  "arch": "x86_64",
+  "cpu_model": "Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz",
+  "cpu_logical": 16,
+  "cpu_cores_per_socket": 8,
+  "cpu_sockets": 1,
+  "ram_total_gib": 30.6,
+  "_source": "platform, /etc/os-release, lscpu, /proc/meminfo"
+ },
+ "gpu": {
+  "nvidia_smi_available": true,
+  "gpu_model": "NVIDIA GeForce RTX 2080 Super with Max-Q Design",
+  "vram_mib": 8192,
+  "driver_version": "580.178.04",
+  "compute_capability": "7.5",
+  "driver_max_cuda": "13.0",
+  "torch_cuda_build": "13.2",
+  "cudnn_version": "9.26.0",
+  "torch_cuda_available": true,
+  "training_device_by_run": {
+   "experiments/runs/rq4_ablation": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 2080 Super with Max-Q Design",
+    "synthetic": false
+   },
+   "experiments/runs/rq4_ablation_nodeobf": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 2080 Super with Max-Q Design",
+    "synthetic": false
+   },
+   "experiments/runs/rq5_taint_hparams": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 2080 Super with Max-Q Design",
+    "synthetic": false
+   },
+   "experiments/runs/rq5_taint_hparams_synthetic": {
+    "device": "cpu",
+    "gpu": null,
+    "synthetic": true
+   },
+   "experiments/runs/rq1_codebert": {
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 2080 Super with Max-Q Design"
+   }
+  },
+  "_source": "nvidia-smi; torch.version.cuda; ledger.json / codebert_rq1_summary.json của từng run"
+ },
+ "libraries": {
+  "python_packages": {
+   "torch": "2.15.0",
+   "torch-geometric": "2.8.1",
+   "torch-scatter": null,
+   "torch-sparse": null,
+   "pyg-lib": null,
+   "transformers": "4.57.6",
+   "tokenizers": "0.22.2",
+   "safetensors": "0.8.0",
+   "huggingface-hub": "0.36.2",
+   "numpy": "2.5.4",
+   "scipy": "1.18.1",
+   "scikit-learn": "1.9.1",
+   "networkx": "3.7",
+   "pandas": "3.1.1",
+   "PyYAML": "6.0.3",
+   "nvidia-cudnn-cu13": "9.26.0.51",
+   "nvidia-cublas": "13.4.1.3",
+   "nvidia-cuda-runtime": "13.2.86"
+  },
+  "composer": {
+   "nikic/php-parser": {
+    "version": "v5.9.0",
+    "source_ref": "9e33da9553fe7786f0962b35f4e4ecf01be89def"
+   }
+  },
+  "php": "8.5.4",
+  "composer_tool": "Composer version 2.9.5 2026-01-29 11:40:53",
+  "_source": "importlib.metadata (venv), composer.lock, php -r"
+ },
+ "determinism": {
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "hipag_set_seed": {
+   "where": "src/hipag/utils/seed.py:set_seed",
+   "random.seed": true,
+   "numpy.random.seed": true,
+   "torch.manual_seed": true,
+   "torch.cuda.manual_seed_all": true,
+   "cudnn.deterministic=True": true,
+   "cudnn.benchmark=False": true,
+   "PYTHONHASHSEED_set_at_runtime": true
+  },
+  "codebert_and_harness_baselines_set_seed": {
+   "where": "scripts/run_baselines.py:set_seed",
+   "random.seed": true,
+   "numpy.random.seed": true,
+   "torch.manual_seed": true,
+   "torch.cuda.manual_seed_all": true,
+   "cudnn.deterministic=True": false,
+   "cudnn.benchmark=False": false,
+   "PYTHONHASHSEED_set_at_runtime": false
+  },
+  "torch.use_deterministic_algorithms": false,
+  "CUBLAS_WORKSPACE_CONFIG": false,
+  "codebert_amp_fp16_on_cuda": true,
+  "torch_scatter_installed": false,
+  "notes": [
+   "PYTHONHASHSEED được gán TRONG tiến trình -> chỉ tác dụng với tiến trình con, không cố định hash của chính nó.",
+   "Không bật torch.use_deterministic_algorithms; scatter của PyG trên CUDA (không có torch-scatter) có thể không tất định tuyệt đối -> kết quả báo mean±sd qua 5 seed."
+  ],
+  "_source": "inspect.getsource(set_seed) + grep src/ scripts/"
+ },
+ "codebert": {
+  "model_id": "microsoft/codebert-base",
+  "model_revision_recorded": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "hf_cache_refs_main": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "revision_pinned_in_from_pretrained": false,
+  "length_strategy": "sliding-window 512 stride 384 mean-pool cap8",
+  "windowing_details": "512 tokens including special tokens; window starts advance by 384 content tokens; first 8 windows retained; mean of CodeBERT pooler_output vectors per file",
+  "files_hitting_window_cap": {
+   "train": "1998/5312",
+   "val": "447/1157",
+   "test": "447/1152",
+   "holdout": "534/2306"
+  },
+  "optimizer": "adamw",
+  "lr": 2e-05,
+  "weight_decay": 0.0001,
+  "max_epochs": 25,
+  "patience": 5,
+  "selection": "val_pr_auc+earlystop",
+  "loss": "unweighted binary_cross_entropy_with_logits (same as harness neural baselines)",
+  "batch_size_files": 8,
+  "window_batch_size": 4,
+  "gradient_checkpointing": true,
+  "max_grad_norm": 1.0,
+  "input_artifact": "experiments/runs/rq1_codebert/canonical_inputs.jsonl",
+  "input_sha256_recorded": "49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415",
+  "input_sha256_now": "49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415",
+  "config": "configs/experiment/rq1_codebert.yaml",
+  "config_sha256_recorded": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
+  "config_sha256_now": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
+  "fingerprints_identical_across_seeds": true,
+  "per_seed": [
+   {
+    "seed": 0,
+    "run_fingerprint": "fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398",
+    "best_epoch": 11,
+    "epochs_run": 16,
+    "val_pr_auc": 0.9987816664271875,
+    "elapsed_hours": 3.02
+   },
+   {
+    "seed": 1,
+    "run_fingerprint": "fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398",
+    "best_epoch": 4,
+    "epochs_run": 9,
+    "val_pr_auc": 0.999061608927617,
+    "elapsed_hours": 1.8
+   },
+   {
+    "seed": 2,
+    "run_fingerprint": "fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398",
+    "best_epoch": 15,
+    "epochs_run": 20,
+    "val_pr_auc": 0.9988926642430898,
+    "elapsed_hours": 3.86
+   },
+   {
+    "seed": 3,
+    "run_fingerprint": "fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398",
+    "best_epoch": 6,
+    "epochs_run": 11,
+    "val_pr_auc": 0.9994107500112372,
+    "elapsed_hours": 2.43
+   },
+   {
+    "seed": 4,
+    "run_fingerprint": "fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398",
+    "best_epoch": 3,
+    "epochs_run": 8,
+    "val_pr_auc": 0.9993322936133715,
+    "elapsed_hours": 1.54
+   }
+  ],
+  "script": "scripts/run_codebert_baseline.py",
+  "_source": "experiments/runs/rq1_codebert/{codebert_rq1_summary.json, seed_*/metrics.json, hf_cache/.../refs/main}"
+ },
+ "hipag": {
+  "optimizer": "adamw",
+  "lr": 0.0002,
+  "weight_decay": 0.0001,
+  "max_epochs": 100,
+  "batch_size": 32,
+  "early_stop_patience": 15,
+  "selection_metric": "val pr_auc",
+  "grad_clip": 1.0,
+  "lambda_taint": 0.5,
+  "decision_threshold": 0.5,
+  "taint_predictor": {
+   "mlp_hidden": 128,
+   "tau": 0.5,
+   "tau_floor": 0.3,
+   "top_k": 8,
+   "warmup_epochs": 3,
+   "pos_weight": "auto"
+  },
+  "esem": {
+   "esem_hop": 12,
+   "interproc_depth": 2,
+   "max_cand": 4096,
+   "cross_function": true
+  },
+  "architecture": {
+   "token_transformer": {
+    "d_embed": 64,
+    "heads": 4,
+    "layers": 2
+   },
+   "intra_gatv2": {
+    "hidden": 128,
+    "heads": 2,
+    "layers": 2
+   },
+   "inter_transformer": {
+    "hidden": 128,
+    "heads": 2,
+    "layers": 2
+   },
+   "dropout": 0.1,
+   "pool": "max"
+  },
+  "taint_hparam_sweep": {
+   "grid": {
+    "model.taint_predictor.top_k": [
+     4,
+     8,
+     16
+    ],
+    "model.taint_predictor.warmup_epochs": [
+     3,
+     5,
+     8
+    ]
+   },
+   "fixed": {
+    "tau_floor": 0.3
+   },
+   "select": {
+    "split": "val",
+    "metric": "f1_macro"
+   },
+   "best": "top_k8_warmup_epochs3",
+   "best_overrides": {
+    "model.taint_predictor.top_k": 8,
+    "model.taint_predictor.warmup_epochs": 3
+   },
+   "best_val_mean_sd": [
+    0.984700005942485,
+    0.003997213615855968
+   ],
+   "n_seeds": 3
+  },
+  "main_run": {
+   "dir": "experiments/runs/rq4_ablation",
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "variants": [
+    "full",
+    "rule_e_sem",
+    "no_token_transformer",
+    "no_e_sem",
+    "no_e_dfg",
+    "no_inter_transformer",
+    "no_global_features",
+    "pool_mean"
+   ],
+   "time_utc": "2026-11-08T23:02:00+00:00",
+   "device": "cuda"
+  },
+  "_source": "experiments/runs/rq4_ablation/ledger.json (config đã dùng) + src/hipag/train.py:TRAIN_DEFAULTS + experiments/runs/rq5_taint_hparams/{sweep_best.json, ledger.json}"
+ },
+ "data": {
+  "split_counts": {
+   "train": {
+    "n": 5312,
+    "n_webshell": 1525,
+    "n_benign": 3787,
+    "sample_ids_sha256": "7819866ed2b385f336a629d865fb10a6056a360f91088b12ca9434dcfb976851"
+   },
+   "val": {
+    "n": 1157,
+    "n_webshell": 328,
+    "n_benign": 829,
+    "sample_ids_sha256": "8698e3d20a1000da20737caa07fbb3d926682e8a72ea56be23e864809bc9f97c"
+   },
+   "test": {
+    "n": 1152,
+    "n_webshell": 328,
+    "n_benign": 824,
+    "sample_ids_sha256": "fe2e451fce310aaa33ca7ac44b8a2149da7e9ed0f39232de2d00fa5b93e80658"
+   },
+   "holdout": {
+    "n": 2306,
+    "n_webshell": 339,
+    "n_benign": 1967,
+    "sample_ids_sha256": "55f816421c662d2ea3f2c48f4218072c1aa912c3ef30b1c82d5a7e9b11a9f3d8"
+   },
+   "obf": {
+    "n": 6912,
+    "n_webshell": 1968,
+    "n_benign": 4944,
+    "sample_ids_sha256": "8c9d6e9fa3dff5718c60740501940c9010a576d8eb1fa2e1a38c87ee258f9eab"
+   }
+  },
+  "file_sha256": {
+   "experiments/dataset/splits.csv": "00c9706de6bf420ec408a38e4b73046ad9ab56ce61fd50dbb7c0b09389c257c4",
+   "experiments/dataset/manifest.csv": "b167ccb3d83aa3c1d9b160b561674c3956071a0c700c9f9dde2cc7bc80d3c987",
+   "experiments/dataset/split_summary.json": "8eeba901435639468e66730f7059120c39fbfb87176e8ad948d086294b07c6c8",
+   "experiments/dataset/obfuscation_manifest.csv": "2330fd993e41a098b84d51a073bd16e9f6f36883e7d3ce6c03028b46d7483e4b",
+   "experiments/dataset/obfuscation_manifest_nodeobf.csv": "2330fd993e41a098b84d51a073bd16e9f6f36883e7d3ce6c03028b46d7483e4b",
+   "experiments/dataset/benign2_sources.tsv": "fa482c17b93086ed24f873ea62ceac421ff0777dd9a18c0207cd98b97106078b",
+   "experiments/dataset/clusters.csv": "aa97760abb7373fbb8eb78c13df274048bbb7cba36292ea8e3e2677094b93e77"
+  },
+  "canonical_inputs_jsonl": {
+   "path": "experiments/runs/rq1_codebert/canonical_inputs.jsonl",
+   "sha256": "49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415"
+  },
+  "manifest_rows": 10172,
+  "split_rows_main": 9927,
+  "sources": {
+   "adminer": {
+    "n_webshell": 0,
+    "n_benign": 108,
+    "repo": "https://github.com/vrana/adminer",
+    "pinned_commit": "38cdecba2a413483109d9c37edeacf16346c7985",
+    "pin": "benign2_sources.tsv"
+   },
+   "c01dsnap": {
+    "n_webshell": 573,
+    "n_benign": 0,
+    "url": "https://huggingface.co/datasets/c01dsnap/Webshell (Black.zip + webshell.zip)",
+    "archives_sha256": {
+     "c01dsnap_Webshell_Black.zip": "ccbf935e202523e61be81633067a8de248f74d30e3f226253e1b5938b2f10405",
+     "c01dsnap_Webshell_webshell.zip": "a7924da81bae4110caec6c5694dfcbd67b8efc95648abfb5eadea605a8b3db0f"
+    },
+    "pin": "sha256 của file nén đã tải (không có commit/revision cho nội dung)"
+   },
+   "c01dsnap_benign": {
+    "n_webshell": 0,
+    "n_benign": 1978,
+    "url": "https://huggingface.co/datasets/c01dsnap/Webshell (White.zip, mẫu 2000/12167)",
+    "archives_sha256": {
+     "c01dsnap_Webshell_White.zip": "1cd91772f4e4d8a37c5cbf0ed727ae2baf0ebe018dfa68b9e37c3cffbf90db74"
+    },
+    "pin": "sha256 của file nén đã tải (không có commit/revision cho nội dung)"
+   },
+   "carbon_lang": {
+    "n_webshell": 0,
+    "n_benign": 149,
+    "repo": "https://github.com/briannesbitt/Carbon",
+    "pinned_commit": "dde1e12f75b779d8a1b396d5e17e6ae6ab50396e",
+    "pin": "benign2_sources.tsv"
+   },
+   "country_list": {
+    "n_webshell": 0,
+    "n_benign": 40,
+    "repo": "https://github.com/umpirsky/country-list",
+    "pinned_commit": "bd490a163ae4709bbe4b54c4f638f24e032828d2",
+    "pin": "benign2_sources.tsv"
+   },
+   "cycle183": {
+    "n_webshell": 1726,
+    "n_benign": 0,
+    "url": "https://github.com/Cyc1e183/PHP-Webshell-Dataset (PHP-Webshell.zip, LFS)",
+    "archives_sha256": {
+     "cycle183.zip": "ea9211fcd642b21e912899e09b570d71431369e63ab11c28f3d6d90fd47074ad"
+    },
+    "pin": "sha256 của file nén đã tải (không có commit/revision cho nội dung)",
+    "repo_commit": "59ff14ffb05ed4aa2fd550db0bd66d0cf105f0dc"
+   },
+   "dokuwiki": {
+    "n_webshell": 0,
+    "n_benign": 431,
+    "repo": "https://github.com/dokuwiki/dokuwiki",
+    "pinned_commit": "ab1349690553fb0c339a042c6b4e12c7607334c4",
+    "pin": "benign2_sources.tsv"
+   },
+   "drupal": {
+    "n_webshell": 0,
+    "n_benign": 150,
+    "url": "https://github.com/drupal/drupal",
+    "pinned_commit": "3fb1c69d36927265f30e4dbc418828f5b884b73f",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "e107": {
+    "n_webshell": 0,
+    "n_benign": 691,
+    "repo": "https://github.com/e107inc/e107",
+    "pinned_commit": "f0dc448d65015c76e1a3b992f3fae289d03c796c",
+    "pin": "benign2_sources.tsv"
+   },
+   "elfinder": {
+    "n_webshell": 0,
+    "n_benign": 15,
+    "repo": "https://github.com/Studio-42/elFinder",
+    "pinned_commit": "6f1da224a5d96465e4c9535165fdfdf1ae532d9c",
+    "pin": "benign2_sources.tsv"
+   },
+   "fluxbb": {
+    "n_webshell": 0,
+    "n_benign": 48,
+    "repo": "https://github.com/fluxbb/fluxbb",
+    "pinned_commit": "5a2f95a34ef426f2b12103a32d5d4ba24a14391a",
+    "pin": "benign2_sources.tsv"
+   },
+   "johntroony": {
+    "n_webshell": 89,
+    "n_benign": 0,
+    "url": "https://github.com/JohnTroony/php-webshells",
+    "pinned_commit": "226a15d0684e2f893caed0b94fbbf0037b89adea",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "kcfinder": {
+    "n_webshell": 0,
+    "n_benign": 25,
+    "repo": "https://github.com/sunhater/kcfinder",
+    "pinned_commit": "b645d2a81e647d63780c238b130593e32b4d95a9",
+    "pin": "benign2_sources.tsv"
+   },
+   "kint": {
+    "n_webshell": 0,
+    "n_benign": 54,
+    "repo": "https://github.com/kint-php/kint",
+    "pinned_commit": "a05294926725dde6c41a6374e1f722f2510b9109",
+    "pin": "benign2_sources.tsv"
+   },
+   "laravel": {
+    "n_webshell": 0,
+    "n_benign": 150,
+    "url": "https://github.com/laravel/framework",
+    "pinned_commit": "3ee9f38b4b840acabe79dbe3212b42e00b9ee4ee",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "libphonenumber_data": {
+    "n_webshell": 0,
+    "n_benign": 200,
+    "repo": "https://github.com/giggsey/libphonenumber-for-php",
+    "pinned_commit": "75a801c3dbf9a675e4bc83e0da2c2142fcc5344d",
+    "pin": "benign2_sources.tsv"
+   },
+   "mantisbt": {
+    "n_webshell": 0,
+    "n_benign": 278,
+    "repo": "https://github.com/MantisBT/mantisbt",
+    "pinned_commit": "94a7edb90540f7cb2b29bbb5cd1202bab53a9594",
+    "pin": "benign2_sources.tsv"
+   },
+   "mpdf_data": {
+    "n_webshell": 0,
+    "n_benign": 23,
+    "repo": "https://github.com/mpdf/mpdf",
+    "pinned_commit": "9928267eb9ff91e5ef6d7515d7c2d230b9e8892d",
+    "pin": "benign2_sources.tsv"
+   },
+   "mybb": {
+    "n_webshell": 0,
+    "n_benign": 227,
+    "repo": "https://github.com/mybb/mybb",
+    "pinned_commit": "f621eef39c8b6a00dbfed17a4f5d571656a3669d",
+    "pin": "benign2_sources.tsv"
+   },
+   "oscommerce2": {
+    "n_webshell": 0,
+    "n_benign": 193,
+    "repo": "https://github.com/osCommerce/oscommerce2",
+    "pinned_commit": "de0e97d15d43ac6a9a6cfb2847134a82a0148f2b",
+    "pin": "benign2_sources.tsv"
+   },
+   "phpmailer_lang": {
+    "n_webshell": 0,
+    "n_benign": 1,
+    "repo": "https://github.com/PHPMailer/PHPMailer",
+    "pinned_commit": "ddf8cfdeb968eb63f7f6cc4eb5b7b7b59a103f09",
+    "pin": "benign2_sources.tsv"
+   },
+   "phpsysinfo": {
+    "n_webshell": 0,
+    "n_benign": 62,
+    "repo": "https://github.com/phpsysinfo/phpsysinfo",
+    "pinned_commit": "b53202030d5d70e3c6eecaefe5ed4c27812b7628",
+    "pin": "benign2_sources.tsv"
+   },
+   "phpvirtualbox": {
+    "n_webshell": 0,
+    "n_benign": 10,
+    "repo": "https://github.com/phpvirtualbox/phpvirtualbox",
+    "pinned_commit": "e5e4cc7791401265a183e87f4e451bd667ef5766",
+    "pin": "benign2_sources.tsv"
+   },
+   "piwigo": {
+    "n_webshell": 0,
+    "n_benign": 292,
+    "repo": "https://github.com/Piwigo/Piwigo",
+    "pinned_commit": "7547b1bdb00a531a613042b9142493f19f64c6ce",
+    "pin": "benign2_sources.tsv"
+   },
+   "pluck": {
+    "n_webshell": 0,
+    "n_benign": 97,
+    "repo": "https://github.com/pluck-cms/pluck",
+    "pinned_commit": "c61a801cf9dc4bb0d5770a257f3cd468c0eaa18d",
+    "pin": "benign2_sources.tsv"
+   },
+   "polyfill_idn": {
+    "n_webshell": 0,
+    "n_benign": 5,
+    "repo": "https://github.com/symfony/polyfill-intl-idn",
+    "pinned_commit": "533d68cf99c8f8ee2e8893c59ed59192e92cfd74",
+    "pin": "benign2_sources.tsv"
+   },
+   "polyfill_normalizer": {
+    "n_webshell": 0,
+    "n_benign": 3,
+    "repo": "https://github.com/symfony/polyfill-intl-normalizer",
+    "pinned_commit": "ebd57ccc7edb93d632e184efbe7693d2517bab3b",
+    "pin": "benign2_sources.tsv"
+   },
+   "serendipity": {
+    "n_webshell": 0,
+    "n_benign": 618,
+    "repo": "https://github.com/s9y/Serendipity",
+    "pinned_commit": "15212b5f275fb942a92dde58c5f811e027b9e587",
+    "pin": "benign2_sources.tsv"
+   },
+   "smarty": {
+    "n_webshell": 0,
+    "n_benign": 66,
+    "repo": "https://github.com/smarty-php/smarty",
+    "pinned_commit": "ed16847b9f0abce290865fcd5020b32aaf339d07",
+    "pin": "benign2_sources.tsv"
+   },
+   "symfony_di": {
+    "n_webshell": 0,
+    "n_benign": 150,
+    "url": "https://github.com/symfony/dependency-injection",
+    "pinned_commit": "91ff86a0e53c1dc8245dfcd01455799a1fbdbf65",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "tennc": {
+    "n_webshell": 366,
+    "n_benign": 0,
+    "url": "https://github.com/tennc/webshell",
+    "pinned_commit": "6b17eae4a0bc792f996a38ce32772e4db9c7c799",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "textpattern": {
+    "n_webshell": 0,
+    "n_benign": 111,
+    "repo": "https://github.com/textpattern/textpattern",
+    "pinned_commit": "0105c6df3d009f25f4e404a834240a94fdcfdfd7",
+    "pin": "benign2_sources.tsv"
+   },
+   "tinyfilemanager": {
+    "n_webshell": 0,
+    "n_benign": 1,
+    "repo": "https://github.com/prasathmani/tinyfilemanager",
+    "pinned_commit": "41491439a6b243c55502581e53fad20bc4c6e777",
+    "pin": "benign2_sources.tsv"
+   },
+   "tracy_templates": {
+    "n_webshell": 0,
+    "n_benign": 11,
+    "repo": "https://github.com/nette/tracy",
+    "pinned_commit": "d46e9e972563d8f56fd2dff9917442228bc28b46",
+    "pin": "benign2_sources.tsv"
+   },
+   "vesta": {
+    "n_webshell": 0,
+    "n_benign": 150,
+    "repo": "https://github.com/serghey-rodin/vesta",
+    "pinned_commit": "765509cae20630e01e9e4688ae4b7c599546d908",
+    "pin": "benign2_sources.tsv"
+   },
+   "wordpress": {
+    "n_webshell": 0,
+    "n_benign": 399,
+    "url": "https://github.com/WordPress/WordPress",
+    "pinned_commit": "1f23e99c724ee094dfdfc98656497e3593416323",
+    "pin": "git HEAD của bản clone đã dùng"
+   },
+   "zencart": {
+    "n_webshell": 0,
+    "n_benign": 682,
+    "repo": "https://github.com/zencart/zencart",
+    "pinned_commit": "031b60dc47cd090a444d3880170d4486b2b1923c",
+    "pin": "benign2_sources.tsv"
+   }
+  },
+  "on_disk_but_not_in_manifest": [
+   "data/_repos/mwf_repo (MWF; thay bằng c01dsnap làm holdout)",
+   "data/dl/nbuser32_PHP-Webshell-Dataset_php_webshell_dataset.jsonl"
+  ],
+  "_source": "experiments/dataset/*.csv|json|tsv, configs/dataset/collect.yaml, git HEAD các clone trong data/raw"
+ },
+ "code": {
+  "git_head": "aa127500e0be18da1bdd948e0d99c91a496ea642",
+  "git_dirty_entries": 9,
+  "git_dirty_sample": [
+   "M paper/numbers.tex",
+   " M scripts/figs/make_f1_vs_level.py",
+   " M scripts/run_baselines.py",
+   "?? configs/experiment/rq1_codebert.yaml",
+   "?? repro/",
+   "?? scripts/mon_codebert.py",
+   "?? scripts/paper/",
+   "?? scripts/repro/",
+   "?? scripts/run_codebert_baseline.py"
+  ],
+  "code_tree_sha256": "060a0e41ca1d2aa44928caa86502c88d7a56b2c86d2adb2e7e85154cdfd48037",
+  "code_tree_files": 75,
+  "commit_recorded_in_run_ledgers": {
+   "experiments/runs/rq4_ablation": "3271422097b4c7fd9f259cb17b8f822d902a0572",
+   "experiments/runs/rq4_ablation_nodeobf": "3271422097b4c7fd9f259cb17b8f822d902a0572",
+   "experiments/runs/rq5_taint_hparams": "3271422097b4c7fd9f259cb17b8f822d902a0572",
+   "experiments/runs/rq5_taint_hparams_synthetic": "3271422097b4c7fd9f259cb17b8f822d902a0572"
+  },
+  "note": "Các ledger ghi git_commit lúc chạy nhưng working tree khi đó có thay đổi CHƯA commit -> commit không ghim được mã đã chạy. code_tree_sha256 là trạng thái mã HIỆN TẠI (lúc sinh manifest).",
+  "configs_sha256": {
+   "configs/model/hipag_base.yaml": "f6e83da39b26c1ee17b0f70bf60ed3cbfbb9461212bc389610f200b8b601f5a3",
+   "configs/experiment/rq1_baselines.yaml": "387030da65de3ecab7a3f9d827090534c8383fb20f1a1dd36b9aed6e5eba7657",
+   "configs/experiment/rq1_codebert.yaml": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
+   "configs/experiment/rq1_detection.yaml": "21b5ad1d512e736b6b00629b14cfeed9f9923d658a931dbef65e0ed2aaf0c522",
+   "configs/experiment/rq2_obfuscation.yaml": "2dc745b1ac5b6f6635dfe1a2e50215bbfb3d1c6c2c77b87b9fee847e2144ef51",
+   "configs/experiment/rq2_obfuscation_nodeobf.yaml": "531c8af11bf02033e19086276d5f5490a4dd43ac1f5fc36699d727b516b90e97",
+   "configs/experiment/rq3_crossdataset.yaml": "2f33079825e949046903a9ec8f3c629aceff108816288a7db2e2ac4557450d66",
+   "configs/experiment/rq4_ablation.yaml": "1a7e6414ad155de0e7b02da688c219c510ff76180a5e612048b5d70693af9d03",
+   "configs/experiment/rq4_ablation_nodeobf.yaml": "5473d8f9aa6070b4b6a1df3bec5eeddc4c9a3308ba83aa17fff35dcbc0ff9bf0",
+   "configs/experiment/rq5_taint_hparams.yaml": "460b1f0c18ba8ffa663bf18093d8c80df74f0fc982b2e88db0bd233f44364984",
+   "configs/experiment/probe_on.yaml": "577f688b9eb76ccb1d78601aa70b77b8511a9a9cf8706f06dcdadd53d73c5a87",
+   "configs/experiment/probe_off.yaml": "37c4a2c14f1ab2553a30819152fe8b14559ba330ed4842ee0cb88f2ec00fc424",
+   "configs/dataset/collect.yaml": "91d3f07d21df1946bb7c1a4c7a1f11d40c5d905e688ca2862d32c5dac2d92179",
+   "configs/dataset/dedup.yaml": "f4b0b49d802801d91a5d6afacda6e49cda09547a94ed940da95dcba81a1870cb",
+   "configs/dataset/split.yaml": "89a76b0c8f5a23e21216b1f11477881a2f291220e73b9e060c2bdcc80576a90e",
+   "configs/dataset/build_graphs.yaml": "2ae8a18ee1e624fe50e7838570167fc650c893662f27b6aa3a073ad219d75ee2",
+   "configs/dataset/build_graphs_nodeobf.yaml": "a5e184c27f38640a10fdfc2f301f99063e1e65494298b275896f4819b574bc6a",
+   "configs/dataset/obfuscation.yaml": "7885c8a4547f45ce02051201afaae752a0957edb050d19500161a37f3a46cbea",
+   "configs/dataset/obfuscation_nodeobf.yaml": "e47ce8cf6a76dcb4d289de979805c88b34b20e8e9006857e245a75b90ea126bb",
+   "composer.lock": "dacbd3388831cb3fc1d78394d9a535ad11a4801c05dff26770e9fcc9e1e2ace3"
+  }
+ },
+ "paper_numbers": {
+  "Python": "3.12.16",
+  "PyTorch": "2.15.0",
+  "PyTorch Geometric": "2.8.1",
+  "Transformers": "4.57.6",
+  "GPU": "NVIDIA GeForce RTX 2080 Super with Max-Q Design (8192 MiB)",
+  "CUDA (torch build)": "13.2",
+  "CUDA (driver max)": "13.0",
+  "NVIDIA driver": "580.178.04",
+  "cuDNN": "9.26.0",
+  "PHP-Parser": "v5.9.0",
+  "PHP": "8.5.4",
+  "CodeBERT revision": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "OS": "Ubuntu 26.04 LTS",
+  "CPU": "Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz",
+  "RAM (GiB)": 30.6
+ }
+}
