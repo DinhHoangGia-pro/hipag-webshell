@@ -1,6 +1,6 @@
 # Hồ sơ tái lập HiPaG
 
-Sinh tự động bởi `scripts/repro/make_manifest.py` lúc 2026-11-12T12:35:27+00:00 (UTC). Bản máy đọc: `repro/manifest.json`. Dữ liệu chỉ ghi hash + số đếm, không kèm file.
+Sinh tự động bởi `scripts/repro/make_manifest.py` lúc 2026-11-13T08:11:43+00:00 (UTC). Bản máy đọc: `repro/manifest.json`. Dữ liệu chỉ ghi hash + số đếm, không kèm file.
 
 ## Số trích cho paper
 
@@ -24,7 +24,7 @@ Sinh tự động bởi `scripts/repro/make_manifest.py` lúc 2026-11-12T12:35:2
 
 ## 1. Nền
 
-- Python 3.12.16 (CPython); Ubuntu 26.04 LTS, kernel 7.0.0-42-generic (x86_64)
+- Python 3.12.16 (CPython); Ubuntu 26.04 LTS, kernel 7.0.0-43-generic (x86_64)
 - CPU: Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz — 1 socket × 8 nhân, 16 luồng
 - RAM: 30.6 GiB
 
@@ -71,12 +71,12 @@ Sinh tự động bởi `scripts/repro/make_manifest.py` lúc 2026-11-12T12:35:2
 
 ## 5. CodeBERT
 
-- Model `microsoft/codebert-base`, revision `3b0952feddeffad0063f274080e3c23d75e7eb39` (HF cache refs/main `3b0952feddeffad0063f274080e3c23d75e7eb39`; `from_pretrained` không ghim revision — revision thực tế được ghi vào danh tính run)
+- Model `microsoft/codebert-base`, revision ghi nhận `3b0952feddeffad0063f274080e3c23d75e7eb39`, ghim trong config `3b0952feddeffad0063f274080e3c23d75e7eb39` (HF cache refs/main `3b0952feddeffad0063f274080e3c23d75e7eb39`; from_pretrained revision-pinned: True)
 - Độ dài: sliding-window 512 stride 384 mean-pool cap8 — 512 tokens including special tokens; window starts advance by 384 content tokens; first 8 windows retained; mean of CodeBERT pooler_output vectors per file
 - File chạm giới hạn 8 cửa sổ: train 1998/5312, val 447/1157, test 447/1152, holdout 534/2306
 - adamw lr 2e-05, weight decay 0.0001, tối đa 25 epoch, patience 5, chọn theo val_pr_auc+earlystop; batch 8 file / 4 cửa sổ, grad-norm 1.0, gradient checkpointing True
 - Loss: unweighted binary_cross_entropy_with_logits (same as harness neural baselines)
-- Đầu vào `experiments/runs/rq1_codebert/canonical_inputs.jsonl` sha256 `49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415` (khớp lúc chạy); config `configs/experiment/rq1_codebert.yaml` (khớp lúc chạy)
+- Đầu vào `experiments/runs/rq1_codebert/canonical_inputs.jsonl` sha256 `49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415` (khớp lúc chạy); config `configs/experiment/rq1_codebert.yaml` (LỆCH lúc chạy)
 
 | Seed | run_fingerprint | best epoch | epoch chạy | val PR-AUC | giờ |
 |---|---|---|---|---|---|
@@ -86,6 +86,7 @@ Sinh tự động bởi `scripts/repro/make_manifest.py` lúc 2026-11-12T12:35:2
 | 3 | `fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398` | 6 | 11 | 0.9994 | 2.43 |
 | 4 | `fcbc53201aaed2e8b78aef3656928497927049951b843a8f9629733b17103398` | 3 | 8 | 0.9993 | 1.54 |
 
+Revision được ghim trong config/lệnh tải: `3b0952feddeffad0063f274080e3c23d75e7eb39`; revision được truyền vào `from_pretrained`: True.
 Cả 5 seed cùng fingerprint: True.
 
 ## 6. HiPaG
@@ -162,7 +163,7 @@ Có trên đĩa nhưng không dùng: data/_repos/mwf_repo (MWF; thay bằng c01d
 
 ## 8. Mã và config
 
-- git HEAD `aa127500e0be18da1bdd948e0d99c91a496ea642`; 9 mục chưa commit; code_tree_sha256 `060a0e41ca1d2aa44928caa86502c88d7a56b2c86d2adb2e7e85154cdfd48037` (75 file)
+- git HEAD `b341a608dc8c75522cafd2b1c8cda05f2da5b068`; 0 mục chưa commit; code_tree_sha256 `1f839ffc5014d31aa97251e3aa660bba88d73ba8d9f97f644b633193a9b3b839` (77 file)
 - Các ledger ghi git_commit lúc chạy nhưng working tree khi đó có thay đổi CHƯA commit -> commit không ghim được mã đã chạy. code_tree_sha256 là trạng thái mã HIỆN TẠI (lúc sinh manifest).
 - Commit ghi trong ledger: `experiments/runs/rq4_ablation` 3271422097, `experiments/runs/rq4_ablation_nodeobf` 3271422097, `experiments/runs/rq5_taint_hparams` 3271422097, `experiments/runs/rq5_taint_hparams_synthetic` 3271422097
 
@@ -170,7 +171,7 @@ Có trên đĩa nhưng không dùng: data/_repos/mwf_repo (MWF; thay bằng c01d
 |---|---|
 | `configs/model/hipag_base.yaml` | `f6e83da39b26c1ee17b0f70bf60ed3cbfbb9461212bc389610f200b8b601f5a3` |
 | `configs/experiment/rq1_baselines.yaml` | `387030da65de3ecab7a3f9d827090534c8383fb20f1a1dd36b9aed6e5eba7657` |
-| `configs/experiment/rq1_codebert.yaml` | `3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d` |
+| `configs/experiment/rq1_codebert.yaml` | `d6830e34f7992b9f259984af6296d65caecc5c87cb3b6eb58ed753639afb6723` |
 | `configs/experiment/rq1_detection.yaml` | `21b5ad1d512e736b6b00629b14cfeed9f9923d658a931dbef65e0ed2aaf0c522` |
 | `configs/experiment/rq2_obfuscation.yaml` | `2dc745b1ac5b6f6635dfe1a2e50215bbfb3d1c6c2c77b87b9fee847e2144ef51` |
 | `configs/experiment/rq2_obfuscation_nodeobf.yaml` | `531c8af11bf02033e19086276d5f5490a4dd43ac1f5fc36699d727b516b90e97` |

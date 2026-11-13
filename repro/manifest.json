@@ -1,10 +1,10 @@
 {
- "generated_utc": "2026-11-12T12:35:27+00:00",
+ "generated_utc": "2026-11-13T08:11:43+00:00",
  "platform": {
   "python": "3.12.16",
   "python_impl": "CPython",
   "os": "Ubuntu 26.04 LTS",
-  "kernel": "7.0.0-42-generic",
+  "kernel": "7.0.0-43-generic",
   "arch": "x86_64",
   "cpu_model": "Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz",
   "cpu_logical": 16,
@@ -123,8 +123,9 @@
  "codebert": {
   "model_id": "microsoft/codebert-base",
   "model_revision_recorded": "3b0952feddeffad0063f274080e3c23d75e7eb39",
+  "revision_configured": "3b0952feddeffad0063f274080e3c23d75e7eb39",
   "hf_cache_refs_main": "3b0952feddeffad0063f274080e3c23d75e7eb39",
-  "revision_pinned_in_from_pretrained": false,
+  "revision_pinned_in_from_pretrained": true,
   "length_strategy": "sliding-window 512 stride 384 mean-pool cap8",
   "windowing_details": "512 tokens including special tokens; window starts advance by 384 content tokens; first 8 windows retained; mean of CodeBERT pooler_output vectors per file",
   "files_hitting_window_cap": {
@@ -149,7 +150,7 @@
   "input_sha256_now": "49581f050c2fbbde6f68b94f363cbf1d5e8e588c87cee6b26066c604e6c30415",
   "config": "configs/experiment/rq1_codebert.yaml",
   "config_sha256_recorded": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
-  "config_sha256_now": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
+  "config_sha256_now": "d6830e34f7992b9f259984af6296d65caecc5c87cb3b6eb58ed753639afb6723",
   "fingerprints_identical_across_seeds": true,
   "per_seed": [
    {
@@ -619,21 +620,11 @@
   "_source": "experiments/dataset/*.csv|json|tsv, configs/dataset/collect.yaml, git HEAD các clone trong data/raw"
  },
  "code": {
-  "git_head": "aa127500e0be18da1bdd948e0d99c91a496ea642",
-  "git_dirty_entries": 9,
-  "git_dirty_sample": [
-   "M paper/numbers.tex",
-   " M scripts/figs/make_f1_vs_level.py",
-   " M scripts/run_baselines.py",
-   "?? configs/experiment/rq1_codebert.yaml",
-   "?? repro/",
-   "?? scripts/mon_codebert.py",
-   "?? scripts/paper/",
-   "?? scripts/repro/",
-   "?? scripts/run_codebert_baseline.py"
-  ],
-  "code_tree_sha256": "060a0e41ca1d2aa44928caa86502c88d7a56b2c86d2adb2e7e85154cdfd48037",
-  "code_tree_files": 75,
+  "git_head": "b341a608dc8c75522cafd2b1c8cda05f2da5b068",
+  "git_dirty_entries": 0,
+  "git_dirty_sample": [],
+  "code_tree_sha256": "1f839ffc5014d31aa97251e3aa660bba88d73ba8d9f97f644b633193a9b3b839",
+  "code_tree_files": 77,
   "commit_recorded_in_run_ledgers": {
    "experiments/runs/rq4_ablation": "3271422097b4c7fd9f259cb17b8f822d902a0572",
    "experiments/runs/rq4_ablation_nodeobf": "3271422097b4c7fd9f259cb17b8f822d902a0572",
@@ -644,7 +635,7 @@
   "configs_sha256": {
    "configs/model/hipag_base.yaml": "f6e83da39b26c1ee17b0f70bf60ed3cbfbb9461212bc389610f200b8b601f5a3",
    "configs/experiment/rq1_baselines.yaml": "387030da65de3ecab7a3f9d827090534c8383fb20f1a1dd36b9aed6e5eba7657",
-   "configs/experiment/rq1_codebert.yaml": "3ffafb58887cc1a530e21c86412d3c607a250553c94c46ce54f959bd1eb3a32d",
+   "configs/experiment/rq1_codebert.yaml": "d6830e34f7992b9f259984af6296d65caecc5c87cb3b6eb58ed753639afb6723",
    "configs/experiment/rq1_detection.yaml": "21b5ad1d512e736b6b00629b14cfeed9f9923d658a931dbef65e0ed2aaf0c522",
    "configs/experiment/rq2_obfuscation.yaml": "2dc745b1ac5b6f6635dfe1a2e50215bbfb3d1c6c2c77b87b9fee847e2144ef51",
    "configs/experiment/rq2_obfuscation_nodeobf.yaml": "531c8af11bf02033e19086276d5f5490a4dd43ac1f5fc36699d727b516b90e97",
@@ -664,6 +655,7 @@
    "composer.lock": "dacbd3388831cb3fc1d78394d9a535ad11a4801c05dff26770e9fcc9e1e2ace3"
   }
  },
+ "commit": "b341a608dc8c75522cafd2b1c8cda05f2da5b068",
  "paper_numbers": {
   "Python": "3.12.16",
   "PyTorch": "2.15.0",
