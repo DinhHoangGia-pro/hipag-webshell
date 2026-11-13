@@ -1,10 +1,13 @@
-# Cài PHP parser (nikic/PHP-Parser)
+# Installing the PHP parser (nikic/PHP-Parser)
+
+*Tiếng Việt: [SETUP_PHP_vi.md](SETUP_PHP_vi.md)*
 
 ```bash
 sudo apt-get install -y php-cli composer
 composer require nikic/php-parser
-# kiểm tra:
+# check:
 php tools/php/dump_ast.php path/to/sample.php | head
 ```
-Lưu ý: file obfuscation nặng (eval lồng nhiều lớp) có thể parse-fail — ghi vào experiments/dataset/parse_fail.csv,
-đừng loại âm thầm (ảnh hưởng external validity, RQF-05).
+
+Note: heavily obfuscated files (deeply nested `eval` layers) may fail to parse. Record them in
+`experiments/dataset/parse_fail.csv` rather than silently dropping them (this affects external validity, RQF-05).
