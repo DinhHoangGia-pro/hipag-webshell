@@ -1,6 +1,6 @@
 # HiPaG-Webshell
 
-** Copyright © 2026 Anh Hoang and Hoang Gia Dinh.
+** Copyright (©) 2026 Anh Hoang and Hoang Gia Dinh.
 
 **Hierarchical Program-Graph Transformer for Obfuscation-Resilient PHP Webshell Detection.**
 
