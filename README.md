@@ -1,10 +1,10 @@
 # HiPaG-Webshell
 
-**Status: draft.** Copyright © 2026 Anh Hoang and Hoang Gia Dinh.
+** Copyright © 2026 Anh Hoang and Hoang Gia Dinh.
 
 **Hierarchical Program-Graph Transformer for Obfuscation-Resilient PHP Webshell Detection.**
 
-*Tiếng Việt: [README_vi.md](README_vi.md)*
+
 
 HiPaG represents each PHP file as a hierarchical program graph (statement → function → file) with
 multi-relational edges (`E_seq` / `E_skip` / `E_cfg` / `E_dfg` / `E_sem` / `E_call` / `E_include`) and learns
