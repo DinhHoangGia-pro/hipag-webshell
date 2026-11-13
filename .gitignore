@@ -15,3 +15,25 @@ UPGRADES.md
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# internal — not for public release
+paper/
+paper_overleaf/
+.claude/
+CLAUDE.md
+CHECKLIST.md
+INDEX.md
+KE_HOACH_HOAN_THIEN.md
+NGU_CANH.md
+related_work_scan.md
+docs/related_work_scan.md
+docs/OMNI_*
+settings.json
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+hf_cache/
+
+.claude/
+paper_overleaf/
