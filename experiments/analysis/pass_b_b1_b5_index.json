@@ -1,0 +1,38 @@
+{
+  "created_from_saved_data_only": true,
+  "paper_modified": false,
+  "files": [
+    "b1.json",
+    "b1_codebert_seed_diagnostics.csv",
+    "b1_lowest_pr_auc_check.csv",
+    "b1_medians.csv",
+    "b1_per_seed.csv",
+    "b1_seed_ranks.csv",
+    "b1_welch_holm.csv",
+    "b2_codebert_table_a1.csv",
+    "b2_codebert_table_a1.json",
+    "b3.json",
+    "b3_c11_ci95.csv",
+    "b3_level_tests_mde.csv",
+    "b4.json",
+    "b4_L3_L2_diagnostic.csv",
+    "b4_obfuscation_rates.csv",
+    "b5.json",
+    "b5_precision_prevalence.csv",
+    "pass_b_b1_b5_index.json"
+  ],
+  "inputs": [
+    "experiments/runs/rq1_baselines/summary.json",
+    "experiments/runs/rq1_codebert/seed_*/metrics.json",
+    "experiments/runs/rq4_ablation/rq2_per_level_all_metrics.json",
+    "experiments/dataset/obfuscation_summary.json",
+    "experiments/dataset/obfuscation_manifest.csv",
+    "experiments/dataset/graph_stats.csv"
+  ],
+  "caveats": [
+    "All five seeds retained.",
+    "Welch uses independent samples and does not exploit seed matching.",
+    "b3 SESOIs are explicitly post-hoc.",
+    "Per-level deobfuscation success is unavailable in saved artifacts."
+  ]
+}

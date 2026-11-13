@@ -1,0 +1,7 @@
+level,n,parse_status_counts,parse_ok_n,parse_ok_rate,parse_recovered_n,parse_recovered_rate,parse_fallback_tokens_n,parse_fallback_tokens_rate,parse_any_recorded_n,parse_any_recorded_rate,transform_ok_n,transform_ok_rate,lint_obf_ok_n,lint_obf_ok_rate,manifest_keep_n,manifest_keep_rate,dynamic_call_count_sum,deobf_mode,deobf_success_n,deobf_success_rate,deobf_by_level_observed
+L0,1152,"{""fallback_tokens"": 7, ""ok"": 1134, ""recovered"": 11}",1134,0.984375,11,0.009548611111111112,7,0.006076388888888889,1152,1.0,1152,1.0,1108,0.9618055555555556,1152,1.0,0,on (from RQ2 output metadata),,,False
+L1,1152,"{""fallback_tokens"": 7, ""ok"": 1134, ""recovered"": 11}",1134,0.984375,11,0.009548611111111112,7,0.006076388888888889,1152,1.0,1152,1.0,1108,0.9618055555555556,1152,1.0,0,on (from RQ2 output metadata),,,False
+L2,1152,"{""ok"": 1152}",1152,1.0,0,0.0,0,0.0,1152,1.0,1152,1.0,1152,1.0,1152,1.0,0,on (from RQ2 output metadata),,,False
+L3,1152,"{""ok"": 1152}",1152,1.0,0,0.0,0,0.0,1152,1.0,1152,1.0,1152,1.0,1152,1.0,0,on (from RQ2 output metadata),,,False
+L4,1152,"{""fallback_tokens"": 7, ""ok"": 1134, ""recovered"": 11}",1134,0.984375,11,0.009548611111111112,7,0.006076388888888889,1152,1.0,1152,1.0,1108,0.9618055555555556,1152,1.0,86974,on (from RQ2 output metadata),,,False
+L5,1152,"{""ok"": 1152}",1152,1.0,0,0.0,0,0.0,1152,1.0,1152,1.0,1152,1.0,1152,1.0,86974,on (from RQ2 output metadata),,,False

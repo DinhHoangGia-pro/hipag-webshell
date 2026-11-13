@@ -1,0 +1,299 @@
+{
+  "sources": [
+    "experiments/dataset/obfuscation_summary.json",
+    "experiments/dataset/obfuscation_manifest.csv",
+    "experiments/dataset/graph_stats.csv",
+    "experiments/runs/rq4_ablation/rq2_per_level_all_metrics.json"
+  ],
+  "per_level": [
+    {
+      "level": "L0",
+      "n": 1152,
+      "parse_status_counts": "{\"fallback_tokens\": 7, \"ok\": 1134, \"recovered\": 11}",
+      "parse_ok_n": 1134,
+      "parse_ok_rate": 0.984375,
+      "parse_recovered_n": 11,
+      "parse_recovered_rate": 0.009548611111111112,
+      "parse_fallback_tokens_n": 7,
+      "parse_fallback_tokens_rate": 0.006076388888888889,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1108,
+      "lint_obf_ok_rate": 0.9618055555555556,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 0,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    },
+    {
+      "level": "L1",
+      "n": 1152,
+      "parse_status_counts": "{\"fallback_tokens\": 7, \"ok\": 1134, \"recovered\": 11}",
+      "parse_ok_n": 1134,
+      "parse_ok_rate": 0.984375,
+      "parse_recovered_n": 11,
+      "parse_recovered_rate": 0.009548611111111112,
+      "parse_fallback_tokens_n": 7,
+      "parse_fallback_tokens_rate": 0.006076388888888889,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1108,
+      "lint_obf_ok_rate": 0.9618055555555556,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 0,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    },
+    {
+      "level": "L2",
+      "n": 1152,
+      "parse_status_counts": "{\"ok\": 1152}",
+      "parse_ok_n": 1152,
+      "parse_ok_rate": 1.0,
+      "parse_recovered_n": 0,
+      "parse_recovered_rate": 0.0,
+      "parse_fallback_tokens_n": 0,
+      "parse_fallback_tokens_rate": 0.0,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1152,
+      "lint_obf_ok_rate": 1.0,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 0,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    },
+    {
+      "level": "L3",
+      "n": 1152,
+      "parse_status_counts": "{\"ok\": 1152}",
+      "parse_ok_n": 1152,
+      "parse_ok_rate": 1.0,
+      "parse_recovered_n": 0,
+      "parse_recovered_rate": 0.0,
+      "parse_fallback_tokens_n": 0,
+      "parse_fallback_tokens_rate": 0.0,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1152,
+      "lint_obf_ok_rate": 1.0,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 0,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    },
+    {
+      "level": "L4",
+      "n": 1152,
+      "parse_status_counts": "{\"fallback_tokens\": 7, \"ok\": 1134, \"recovered\": 11}",
+      "parse_ok_n": 1134,
+      "parse_ok_rate": 0.984375,
+      "parse_recovered_n": 11,
+      "parse_recovered_rate": 0.009548611111111112,
+      "parse_fallback_tokens_n": 7,
+      "parse_fallback_tokens_rate": 0.006076388888888889,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1108,
+      "lint_obf_ok_rate": 0.9618055555555556,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 86974,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    },
+    {
+      "level": "L5",
+      "n": 1152,
+      "parse_status_counts": "{\"ok\": 1152}",
+      "parse_ok_n": 1152,
+      "parse_ok_rate": 1.0,
+      "parse_recovered_n": 0,
+      "parse_recovered_rate": 0.0,
+      "parse_fallback_tokens_n": 0,
+      "parse_fallback_tokens_rate": 0.0,
+      "parse_any_recorded_n": 1152,
+      "parse_any_recorded_rate": 1.0,
+      "transform_ok_n": 1152,
+      "transform_ok_rate": 1.0,
+      "lint_obf_ok_n": 1152,
+      "lint_obf_ok_rate": 1.0,
+      "manifest_keep_n": 1152,
+      "manifest_keep_rate": 1.0,
+      "dynamic_call_count_sum": 86974,
+      "deobf_mode": "on (from RQ2 output metadata)",
+      "deobf_success_n": null,
+      "deobf_success_rate": null,
+      "deobf_by_level_observed": false
+    }
+  ],
+  "deobfuscation_availability": {
+    "rq2_mode": "on",
+    "per_level_success_counts_available": false,
+    "reason": "graph_stats.csv has 10172 records and 0 obfuscated level IDs; its deobf flag pertains to the non-obfuscated graph set, not L0-L5.",
+    "do_not_interpret_base_graph_deobf_flag_as_obfuscation_success": true
+  },
+  "L3_anomaly": {
+    "level_definitions_from_config": {
+      "L2": "base64_wrap",
+      "L3": "gzinflate_wrap"
+    },
+    "coverage_evidence": {
+      "L2": {
+        "parse_ok_rate": 1.0,
+        "transform_ok_rate": 1.0,
+        "lint_obf_ok_rate": 1.0,
+        "keep_rate": 1.0
+      },
+      "L3": {
+        "parse_ok_rate": 1.0,
+        "transform_ok_rate": 1.0,
+        "lint_obf_ok_rate": 1.0,
+        "keep_rate": 1.0
+      }
+    },
+    "L3_vs_L2_existing_model_metrics": [
+      {
+        "variant": "full",
+        "metric": "f1_macro",
+        "L2_mean": 0.786746892821226,
+        "L2_sd": 0.1683087506618488,
+        "L3_mean": 0.944927643488542,
+        "L3_sd": 0.03522684152452144,
+        "L3_minus_L2": 0.15818075066731596,
+        "L3_minus_L2_pp": 15.818075066731597
+      },
+      {
+        "variant": "full",
+        "metric": "pr_auc",
+        "L2_mean": 0.974904746315423,
+        "L2_sd": 0.014915205549873141,
+        "L3_mean": 0.9914352402841168,
+        "L3_sd": 0.0033723859179408166,
+        "L3_minus_L2": 0.01653049396869377,
+        "L3_minus_L2_pp": 1.6530493968693771
+      },
+      {
+        "variant": "no_e_sem",
+        "metric": "f1_macro",
+        "L2_mean": 0.8048563881305165,
+        "L2_sd": 0.13076956334265016,
+        "L3_mean": 0.9696273705283766,
+        "L3_sd": 0.014791989364481844,
+        "L3_minus_L2": 0.16477098239786003,
+        "L3_minus_L2_pp": 16.477098239786002
+      },
+      {
+        "variant": "no_e_sem",
+        "metric": "pr_auc",
+        "L2_mean": 0.9667637496653171,
+        "L2_sd": 0.017185959047907585,
+        "L3_mean": 0.99307624335288,
+        "L3_sd": 0.004342635585065111,
+        "L3_minus_L2": 0.026312493687562943,
+        "L3_minus_L2_pp": 2.6312493687562943
+      },
+      {
+        "variant": "rule_e_sem",
+        "metric": "f1_macro",
+        "L2_mean": 0.7691671546242017,
+        "L2_sd": 0.1346703098414739,
+        "L3_mean": 0.9709360766029109,
+        "L3_sd": 0.022267607645009922,
+        "L3_minus_L2": 0.20176892197870921,
+        "L3_minus_L2_pp": 20.17689219787092
+      },
+      {
+        "variant": "rule_e_sem",
+        "metric": "pr_auc",
+        "L2_mean": 0.9671961488645948,
+        "L2_sd": 0.01317900710886412,
+        "L3_mean": 0.992570470170714,
+        "L3_sd": 0.004470910816537012,
+        "L3_minus_L2": 0.025374321306119163,
+        "L3_minus_L2_pp": 2.5374321306119163
+      }
+    ],
+    "interpretation": "Observed L3 macro-F1 is much higher than L2 (+15.82 pp for full), while the PR-AUC gap is far smaller (+1.65 pp). At the saved 0.5 threshold, full/L2 has high mean recall and much lower mean precision; full/L3 has higher precision and lower recall. This pattern is consistent with threshold/score-calibration or operating-point sensitivity rather than a comparably large ranking-quality difference. Both levels have complete parse/transform/lint/keep coverage, so failures do not explain it. L2 is base64_wrap and L3 gzinflate_wrap, but per-level deobfuscation success and score distributions/calibration diagnostics were not saved; the exact cause cannot be established from existing artifacts.",
+    "full_operating_point_summary": {
+      "L2": {
+        "precision": {
+          "mean": 0.6686343430194619,
+          "sample_sd": 0.2556707663148816,
+          "median": 0.559931506849315
+        },
+        "recall": {
+          "mean": 0.9646341463414634,
+          "sample_sd": 0.0675770981027104,
+          "median": 0.9969512195121951
+        },
+        "f1_macro": {
+          "mean": 0.786746892821226,
+          "sample_sd": 0.1683087506618488,
+          "median": 0.7658802177858439
+        },
+        "pr_auc": {
+          "mean": 0.974904746315423,
+          "sample_sd": 0.014915205549873141,
+          "median": 0.9760963349412409
+        },
+        "threshold": {
+          "mean": 0.5,
+          "sample_sd": 0.0,
+          "median": 0.5
+        }
+      },
+      "L3": {
+        "precision": {
+          "mean": 0.9797493734335839,
+          "sample_sd": 0.022851799328266663,
+          "median": 0.9868421052631579
+        },
+        "recall": {
+          "mean": 0.8713414634146341,
+          "sample_sd": 0.10634520439828395,
+          "median": 0.9146341463414634
+        },
+        "f1_macro": {
+          "mean": 0.944927643488542,
+          "sample_sd": 0.03522684152452144,
+          "median": 0.9651141663133669
+        },
+        "pr_auc": {
+          "mean": 0.9914352402841168,
+          "sample_sd": 0.0033723859179408166,
+          "median": 0.9916052628149532
+        },
+        "threshold": {
+          "mean": 0.5,
+          "sample_sd": 0.0,
+          "median": 0.5
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+split,model,mean_pr_auc,median_pr_auc,mean_rank_ascending,codebert_is_mean_lowest,codebert_mean_rank_ascending,mean_lowest_model,saved_model_set,codebert_lowest_seed_count,n_seeds
+test,shallow,0.9871723330268442,0.9873645974765862,3,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+test,graphmeta,0.9844532349792262,0.9846518146191919,1,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+test,bilstm,0.9850563396108682,0.986540046466004,2,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+test,flat_gatv2,0.9927846292569317,0.9920365385619858,4,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+test,codebert,0.997018648786133,0.9973081693091075,5,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+test,HiPaG_full,0.9981831490782085,0.9982939660400456,6,False,5,graphmeta,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,0,5
+holdout,shallow,0.8981805489703698,0.897288618511611,4,False,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
+holdout,graphmeta,0.8486700048265223,0.8486654242693993,2,False,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
+holdout,bilstm,0.8552822643771162,0.857947771585031,3,False,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
+holdout,flat_gatv2,0.9300402138042442,0.9330222361860256,5,False,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
+holdout,codebert,0.8324797201703247,0.8197668183144695,1,True,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
+holdout,HiPaG_full,0.9488537472727661,0.9464422210302746,6,False,1,codebert,shallow;graphmeta;bilstm;flat_gatv2;codebert;HiPaG_full,4,5
