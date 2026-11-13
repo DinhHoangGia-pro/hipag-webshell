@@ -41,7 +41,7 @@ pip install -r requirements.txt
 # Parsing PHP cần PHP + nikic/PHP-Parser (composer) — xem docs/SETUP_PHP.md
 ```
 
-## Chạy nhanh (sau khi có data/)
+## Chạy sau khi có data/
 
 ```bash
 python scripts/dataset/01_collect_webshells.py  --config configs/dataset/collect.yaml
