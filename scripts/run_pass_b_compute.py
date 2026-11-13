@@ -134,9 +134,14 @@ def load_codebert(cfg: dict, seed: int, device: torch.device):
 
     cc = cfg["codebert"]
     model_name = cc["model"]
+    revision = str(cc["revision"])
     cache_dir = str(ROOT / cc["hf_cache"])
-    tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
-    encoder = AutoModel.from_pretrained(model_name, cache_dir=cache_dir, local_files_only=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name, revision=revision, cache_dir=cache_dir, local_files_only=True
+    )
+    encoder = AutoModel.from_pretrained(
+        model_name, revision=revision, cache_dir=cache_dir, local_files_only=True
+    )
     model = CodeBertClassifier(encoder, int(encoder.config.hidden_size)).to(device)
     checkpoint_path = ROOT / "experiments/runs/rq1_codebert" / f"seed_{seed}" / "best.pt"
     checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)

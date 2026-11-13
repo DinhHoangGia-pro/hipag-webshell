@@ -181,6 +181,18 @@ def codebert() -> dict:
     s = jload("experiments/runs/rq1_codebert/codebert_rq1_summary.json")
     ref = run / "hf_cache/models--microsoft--codebert-base/refs/main"
     cfg_path = ROOT / "configs/experiment/rq1_codebert.yaml"
+    cfg = yaml.safe_load(cfg_path.read_text())
+    revision = str(cfg["codebert"]["revision"])
+    load_source = (ROOT / "scripts/run_codebert_baseline.py").read_text()
+    inference_source = (ROOT / "scripts/run_pass_b_compute.py").read_text()
+    revision_pinned = all(
+        [
+            "revision=revision" in load_source,
+            'revision = str(train_cfg["revision"])' in load_source,
+            "revision=revision" in inference_source,
+            'revision = str(cc["revision"])' in inference_source,
+        ]
+    )
     per_seed = []
     for sd in SEEDS_EXPECTED:
         m = json.loads((run / f"seed_{sd}/metrics.json").read_text())
@@ -191,8 +203,9 @@ def codebert() -> dict:
     wc = t.get("window_counts", {})
     return {
         "model_id": s["model"], "model_revision_recorded": s.get("model_revision"),
+        "revision_configured": revision,
         "hf_cache_refs_main": ref.read_text().strip() if ref.exists() else None,
-        "revision_pinned_in_from_pretrained": False,
+        "revision_pinned_in_from_pretrained": revision_pinned,
         "length_strategy": s.get("length_strategy"), "windowing_details": s.get("windowing_details"),
         "files_hitting_window_cap": {sp: f"{v['files_with_8_windows']}/{v['files']}" for sp, v in wc.items()},
         "optimizer": t["optim"], "lr": t["lr"], "weight_decay": t["weight_decay"], "max_epochs": t["max_epochs"],
@@ -348,9 +361,10 @@ def to_md(m: dict) -> str:
           f"torch-scatter: {'có' if det['torch_scatter_installed'] else 'không cài'}; "
           f"CodeBERT AMP fp16 trên CUDA: {'có' if det['codebert_amp_fp16_on_cuda'] else 'không'}"]
     L += [f"- {n}" for n in det["notes"]]
-    L += ["", "## 5. CodeBERT", "", f"- Model `{cb['model_id']}`, revision `{cb['model_revision_recorded']}` "
-          f"(HF cache refs/main `{cb['hf_cache_refs_main']}`; `from_pretrained` không ghim revision — revision thực "
-          "tế được ghi vào danh tính run)",
+    L += ["", "## 5. CodeBERT", "", f"- Model `{cb['model_id']}`, revision ghi nhận `{cb['model_revision_recorded']}`, "
+          f"ghim trong config `{cb['revision_configured']}` "
+          f"(HF cache refs/main `{cb['hf_cache_refs_main']}`; from_pretrained revision-pinned: "
+          f"{cb['revision_pinned_in_from_pretrained']})",
           f"- Độ dài: {cb['length_strategy']} — {cb['windowing_details']}",
           f"- File chạm giới hạn 8 cửa sổ: " + ", ".join(f"{k} {v}" for k, v in cb["files_hitting_window_cap"].items()),
           f"- {cb['optimizer']} lr {cb['lr']}, weight decay {cb['weight_decay']}, tối đa {cb['max_epochs']} epoch, "
@@ -364,7 +378,9 @@ def to_md(m: dict) -> str:
     L += [f"| {s['seed']} | `{s['run_fingerprint']}` | {s['best_epoch']} | {s['epochs_run']} | {s['val_pr_auc']:.4f} | "
           f"{s['elapsed_hours']} |" for s in cb["per_seed"]]
     tp, sw = hp["taint_predictor"], hp["taint_hparam_sweep"]
-    L += ["", f"Cả 5 seed cùng fingerprint: {cb['fingerprints_identical_across_seeds']}.", "",
+    L += ["", f"Revision được ghim trong config/lệnh tải: `{cb['revision_configured']}`; "
+          f"revision được truyền vào `from_pretrained`: {cb['revision_pinned_in_from_pretrained']}.",
+          f"Cả 5 seed cùng fingerprint: {cb['fingerprints_identical_across_seeds']}.", "",
           "## 6. HiPaG", "", f"- {hp['optimizer']} lr {hp['lr']}, weight decay {hp['weight_decay']}, tối đa "
           f"{hp['max_epochs']} epoch, batch {hp['batch_size']}, early stop patience {hp['early_stop_patience']} theo "
           f"{hp['selection_metric']}; grad clip {hp['grad_clip']}; λ_taint {hp['lambda_taint']}; ngưỡng {hp['decision_threshold']}",
@@ -405,6 +421,7 @@ def main():
     m = {"generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
          "platform": platform_info(), "gpu": gpu_info(), "libraries": libraries(), "determinism": determinism(),
          "codebert": codebert(), "hipag": hipag(), "data": data(), "code": code_state()}
+    m["commit"] = m["code"]["git_head"]
     m["paper_numbers"] = paper_numbers(m)
     OUT.mkdir(exist_ok=True)
     (OUT / "manifest.json").write_text(json.dumps(m, indent=1, ensure_ascii=False) + "\n")

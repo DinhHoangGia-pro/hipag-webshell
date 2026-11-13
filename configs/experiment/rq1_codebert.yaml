@@ -2,6 +2,7 @@ inherit: configs/experiment/rq1_baselines.yaml
 
 codebert:
   model: microsoft/codebert-base
+  revision: 3b0952feddeffad0063f274080e3c23d75e7eb39
   hf_cache: experiments/runs/rq1_codebert/hf_cache
   max_length: 512
   stride: 384

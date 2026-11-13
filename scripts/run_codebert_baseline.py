@@ -490,6 +490,7 @@ def main(args) -> None:
     train_cfg = cfg["codebert"]
     if str(train_cfg["model"]) != MODEL_NAME:
         raise ValueError(f"RQ1 CodeBERT must use {MODEL_NAME}, got {train_cfg['model']}")
+    revision = str(train_cfg["revision"])
     seeds = [int(seed) for seed in cfg["seeds"]]
     if len(seeds) != 5:
         raise ValueError(f"RQ1 CodeBERT requires exactly five configured seeds, got {seeds}")
@@ -528,14 +529,19 @@ def main(args) -> None:
         print("WARNING: CodeBERT fine-tuning on CPU will be slow.", file=sys.stderr, flush=True)
     print(f"Loading {MODEL_NAME} into WorkingD-local cache {hf_cache}", flush=True)
     tokenizer = AutoTokenizer.from_pretrained(
-        MODEL_NAME, cache_dir=str(hf_cache), local_files_only=args.offline, use_fast=True
+        MODEL_NAME, revision=revision, cache_dir=str(hf_cache),
+        local_files_only=args.offline, use_fast=True
     )
     model_config = AutoConfig.from_pretrained(
-        MODEL_NAME, cache_dir=str(hf_cache), local_files_only=args.offline
+        MODEL_NAME, revision=revision, cache_dir=str(hf_cache), local_files_only=args.offline
     )
     if model_config.model_type != "roberta" or model_config.hidden_size <= 0:
         raise RuntimeError(f"Unexpected CodeBERT encoder config: {model_config}")
-    revision = getattr(model_config, "_commit_hash", None)
+    resolved_revision = getattr(model_config, "_commit_hash", None)
+    if resolved_revision != revision:
+        raise RuntimeError(
+            f"Loaded CodeBERT revision {resolved_revision!r} does not match configured revision {revision!r}"
+        )
     tokenized = tokenize_documents(tokenizer, documents, train_cfg)
     window_counts = {
         split: {
@@ -616,7 +622,7 @@ def main(args) -> None:
         set_seed(seed)
         try:
             encoder = AutoModel.from_pretrained(
-                MODEL_NAME, cache_dir=str(hf_cache), local_files_only=args.offline
+                MODEL_NAME, revision=revision, cache_dir=str(hf_cache), local_files_only=args.offline
             )
             result = fit_seed(
                 seed, tokenized, tokenizer, encoder, cfg, device,
