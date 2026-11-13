@@ -30,7 +30,7 @@ hipag-webshell/
 
 ## Conventions
 
-- `data/` is **never** committed; generated artefacts record provenance hashes under `experiments/dataset/`.
+- `data/` generated artefacts record provenance hashes under `experiments/dataset/`.
 - Splits are **cluster-disjoint** (near-duplicates never straddle a split) — see
   `scripts/dataset/05_make_splits.py` (RQF-05).
 - Every result table is produced from **≥5 seeds** and reported as `mean ± sd`; `eval.py` writes the

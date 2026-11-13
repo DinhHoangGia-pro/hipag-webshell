@@ -27,7 +27,7 @@ hipag-webshell/
 
 ## Quy ước
 
-- `data/` **không bao giờ** lên git; số liệu sinh ra ghi provenance hash vào `experiments/dataset/`.
+- `data/` số liệu sinh ra ghi provenance hash vào `experiments/dataset/`.
 - Split **cluster-disjoint** (near-duplicate không nằm hai phía) — xem `scripts/dataset/05_make_splits.py` (RQF-05).
 - Mọi bảng số của paper sinh ≥**5 seed**, báo `mean ± sd`; `eval.py` xuất thẳng macro vào `paper/numbers.tex`.
 - Luôn chạy `scripts/metadata_probe.py` trước khi tin kết quả model (RQF-04/05 — chống shortcut/leakage).
