@@ -205,6 +205,70 @@ def main() -> None:
         ("TaintSesoiPp", f"{b3['se_soi']['f1_macro']['delta_abs'] * 100:.2f}",
          "b3.se_soi f1_macro equivalence margin (pp)"),
     ]
+    # ---------- derived: Holm family bookkeeping and the deobfuscation contrast ----------
+    # The RQ3 holdout PR-AUC family has six tests. Reviewers asked what the
+    # HiPaG-vs-CodeBERT result looks like without the Flat GATv2 vs CodeBERT
+    # test, so we recompute Holm over the remaining five. Both are reported.
+    fam = [r for r in b1["welch_holm"]
+           if r["family"] == "RQ3_holdout" and r["metric"] == "pr_auc"]
+    plain.append(("HolmFamilySizeRqThree", str(len(fam)),
+                  "b1.welch_holm RQ3_holdout pr_auc family size"))
+    for kind, suf in (("p_raw", "PRaw"), ("p_holm", "PHolm")):
+        r = next(x for x in fam if x["model_a"] == "flat_gatv2" and x["model_b"] == "codebert")
+        plain.append((f"WelchFlatGatvTwoVsCodeBertHoldoutPrAuc{suf}", f"{r[kind]:.3f}",
+                      f"b1.welch_holm flat_gatv2 vs codebert holdout pr_auc {kind}"))
+
+    def holm(ps: list[float]) -> list[float]:
+        order = sorted(range(len(ps)), key=lambda i: ps[i])
+        out, running, n = [0.0] * len(ps), 0.0, len(ps)
+        for k, i in enumerate(order):
+            running = max(running, min(1.0, (n - k) * ps[i]))
+            out[i] = running
+        return out
+
+    sub = [r for r in fam if r["model_a"] != "flat_gatv2"]
+    adj = holm([r["p_raw"] for r in sub])
+    cb = next(a for r, a in zip(sub, adj) if r["model_b"] == "codebert")
+    plain.append(("WelchHiPaGVsCodeBertHoldoutPrAucPHolmFive", f"{cb:.3f}",
+                  f"Holm over the {len(sub)} HiPaG-vs-baseline tests only (b1 p_raw)"))
+
+    # Worst per-seed CodeBERT holdout FPR@95, as a percentage.
+    worst = max(r["holdout_fpr_at_tpr95"] for r in b1["codebert_seed_diagnostics"])
+    plain.append(("CodeBertHoldoutFprNineFiveWorstSeed", f"{worst * 100:.2f}",
+                  "b1.codebert_seed_diagnostics max holdout fpr_at_tpr95 (%)"))
+
+    # Deobfuscation ON-minus-OFF per level, from the per-seed records of both runs.
+    rq2 = load(ROOT / "experiments/runs/rq4_ablation/rq2_per_level_all_metrics.json")
+    on: dict[tuple[str, str], list[float]] = {}
+    for r in rq2["per_seed"]:
+        if r["variant"] == "full":
+            for m in METRICS:
+                on.setdefault((r["level"], m), []).append(r[m])
+    off: dict[tuple[str, str], list[float]] = {}
+    for r in json.loads(C2.read_text())["records"]:
+        for m in METRICS:
+            off.setdefault((r["level"], m), []).append(r[m])
+    for lvl in ("L1", "L2", "L3", "L5"):
+        d = st.mean(on[(lvl, "pr_auc")]) - st.mean(off[(lvl, "pr_auc")])
+        plain.append((f"DeobfDeltaPrAuc{lvl[0]}{DIGIT[int(lvl[1])]}Pp", f"{d * 100:.2f}",
+                      f"deobf on-minus-off PR-AUC at {lvl} (pp), rq2 full vs c2"))
+    d1 = st.mean(on[("L1", "f1_macro")]) - st.mean(off[("L1", "f1_macro")])
+    plain.append(("DeobfDeltaFOneLOnePp", f"{d1 * 100:.2f}",
+                  "deobf on-minus-off macro-F1 at L1 (pp), rq2 full vs c2"))
+
+    # ---------- char-matched subset: caliper and class counts ----------
+    ct = load(ROOT / "experiments/runs/rq4_ablation/char_matched_test.json")
+    cal = load(ROOT / "experiments/dataset" /
+               (Path(ct["dataset"]).stem + ".json"))
+    plain += [
+        ("CharMatchedCaliper", f"{cal['caliper']:.2f}",
+         f"{Path(ct['dataset']).stem}.json caliper"),
+        ("CharMatchedTestPos", str(ct["n_positive"]),
+         "char_matched_test.n_positive"),
+        ("CharMatchedTestNeg", str(ct["n_negative"]),
+         "char_matched_test.n_negative"),
+    ]
+
     # ---------- b4: per-level parse/transform rates (deobfuscation success
     # counts per level are NOT recoverable from the current artifacts) ----------
     b4 = load(ROOT / "experiments/analysis/b4.json")
